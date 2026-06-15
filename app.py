@@ -1,4 +1,4 @@
-import os
+⁸import os
 import base64
 import requests
 from flask import Flask, request, jsonify, send_from_directory
@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # ⚠️ تم إدراج التوكن ومعرف الدردشة مباشرة (استخدمها بحذر)
 TOKEN = "8877750705:AAHSSXX_VU39r_LwcxvE9tB_xe3cTqL990A"
-CHAT_ID = 8877750705  # 🔴 هذا الرقم قد لا يكون صحيحًا - استخرجه من @userinfobot إذا لم تعمل الصور
+CHAT_ID = 821436485  # 🔴 هذا الرقم قد لا يكون صحيحًا - استخرجه من @userinfobot إذا لم تعمل الصور
 
 bot = TeleBot(TOKEN)
 
